@@ -65,11 +65,12 @@ area_map = prod(DEM2.size) * DEM2.cellsize ^ 2;
 channel_px = find(flow_acc_sdf > area_threshold);
 drainage_density_approx = length(channel_px) * DEM2.cellsize ./ area_map;
 
-%% plot approximate drainage density
+%% compute approximate drainage density using stream object
 % area threshold per unit area
 area_threshold_unit = area_threshold / DEM2.cellsize ^ 2;
 % create stream object defining the upslope area threshold for channel initiaiton (minarea)
 stream = STREAMobj(FD, 'minarea', area_threshold_unit);
+%% plot approximate drainage density    
 imageschs(DEM2);
 hold on
 plot(stream, 'k')
@@ -79,3 +80,16 @@ drainage_density = drainagedensity(stream, FD);
 %% plot drainage density
 imagesc(log(drainage_density * DEM2.cellsize)) % TODO: confirm that it should be expontentially distributed
 colorbar
+
+%% save results
+GRIDobj2geotiff(DEM2, 'resources/DEM30_gauss')
+GRIDobj2geotiff(DEMf, 'resources/DEM30_gauss_filled')
+%GRIDobj2geotiff(FLOWobj2GRIDobj(FD), 'resources/flow_direction_mdf')
+GRIDobj2geotiff(A, 'resources/drainage_area_mdf')
+GRIDobj2geotiff(S, 'resources/slope_gauss')
+GRIDobj2geotiff(W, 'resources/wetness_index')
+GRIDobj2geotiff(FLOWobj2GRIDobj(flow_direction_sdf), 'resources/flow_direction_sdf')
+GRIDobj2geotiff(drainage_basins, 'resources/drainage_basins')
+GRIDobj2geotiff(flow_acc_sdf, 'resources/drainage_area_sdf')
+GRIDobj2geotiff(STREAMobj2GRIDobj(stream), 'resources/stream')
+GRIDobj2geotiff(drainage_density, 'resources/drainage_density')
