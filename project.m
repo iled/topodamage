@@ -25,11 +25,24 @@ FD = FLOWobj(DEMf,'Dinf');
 %flow accumulation
 A = flowacc(FD)*DEM2.cellsize^2;
 %slope
-S=gradient8(DEM2);
+S=gradient8(DEMf);
 %wetness index
 W=DEMf;
 W.Z=log((A.Z/DEMf.cellsize)./S.Z);
 
-% left off at doing code for drainage density
+%%
+subplot(1,3,1), imagesc(log(A)), title('log(A)')
+subplot(1,3,2), imagesc(S), title('slope')
+
+% TODO not sure if this is correct, the points don't plot to the edges of the plot (like they in the lecture slide image) 
+subplot(1,3,3), loglog(A.Z(:), S.Z(:), '.'), axis square
+
+
+
+
+
+
+
+
 
 
