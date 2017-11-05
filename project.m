@@ -31,14 +31,18 @@ S=gradient8(DEM2);
 W=DEMf;
 W.Z=log((A.Z/DEMf.cellsize)./S.Z);
 
-%%
+%% plot drainage area + slope + drainage area vs slope
 subplot(1,3,1), imagesc(log(A)), title('log(A)')
 subplot(1,3,2), imagesc(S), title('slope')
-
-% TODO not sure if this is correct, the points don't plot to the edges of the plot (like they in the lecture slide image) 
-
 subplot(1,3,3), loglog(A.Z(:), S.Z(:), '.'), axis square
 xlim([900-100, max(A.Z(ix))])
+
+%% plot the A vs S plot alone
+close all
+loglog(A.Z(:), S.Z(:), '.')
+xlabel ('A [m^2]');
+ylabel ('S []');
+xlim([900-100, max(A.Z(:))]);
 
 %% drainage basins
 % Find basins that drain to DEM boundaries, using SDF (D8)
@@ -86,11 +90,12 @@ area_map = prod(DEM2.size) * DEM2.cellsize ^ 2;
 channel_px = find(flow_acc_sdf > area_threshold);
 drainage_density_approx = length(channel_px) * DEM2.cellsize ./ area_map;
 
-%% plot approximate drainage density
+%% compute approximate drainage density using stream object
 % area threshold per unit area
 area_threshold_unit = area_threshold / DEM2.cellsize ^ 2;
 % create stream object defining the upslope area threshold for channel initiaiton (minarea)
 stream = STREAMobj(FD, 'minarea', area_threshold_unit);
+%% plot approximate drainage density    
 imageschs(DEM2);
 hold on
 plot(stream, 'k')
@@ -100,3 +105,16 @@ drainage_density = drainagedensity(stream, FD);
 %% plot drainage density
 imagesc(log(drainage_density * DEM2.cellsize)) % TODO: confirm that it should be expontentially distributed
 colorbar
+
+%% save results
+GRIDobj2geotiff(DEM2, 'resources/DEM30_gauss')
+GRIDobj2geotiff(DEMf, 'resources/DEM30_gauss_filled')
+%GRIDobj2geotiff(FLOWobj2GRIDobj(FD), 'resources/flow_direction_mdf')
+GRIDobj2geotiff(A, 'resources/drainage_area_mdf')
+GRIDobj2geotiff(S, 'resources/slope_gauss')
+GRIDobj2geotiff(W, 'resources/wetness_index')
+GRIDobj2geotiff(FLOWobj2GRIDobj(flow_direction_sdf), 'resources/flow_direction_sdf')
+GRIDobj2geotiff(drainage_basins, 'resources/drainage_basins')
+GRIDobj2geotiff(flow_acc_sdf, 'resources/drainage_area_sdf')
+GRIDobj2geotiff(STREAMobj2GRIDobj(stream), 'resources/stream')
+GRIDobj2geotiff(drainage_density, 'resources/drainage_density')
