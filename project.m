@@ -1,4 +1,4 @@
-%% load DEM
+
 
 DEM = GRIDobj('resources/Clip_30mProject.tif');
 DEM.cellsize=30;
@@ -20,12 +20,12 @@ subplot(1,2,2), imagesc(DEM2), title('filtered DEM')
 
 %fill sinks in DEM
 DEMf = fillsinks(DEM2);
-%flow direction object using SDF
+%flow direction object:
 FD = FLOWobj(DEMf,'Dinf');
 %flow accumulation
 A = flowacc(FD)*DEM2.cellsize^2;
 %slope
-S=gradient8(DEMf);
+S=gradient8(DEM2);
 %wetness index
 W=DEMf;
 W.Z=log((A.Z/DEMf.cellsize)./S.Z);
