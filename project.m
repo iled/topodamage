@@ -31,12 +31,17 @@ S=gradient8(DEM2);
 W=DEMf;
 W.Z=log((A.Z/DEMf.cellsize)./S.Z);
 
-%%
+%% plot drainage area + slope + drainage area vs slope
 subplot(1,3,1), imagesc(log(A)), title('log(A)')
 subplot(1,3,2), imagesc(S), title('slope')
-
-% TODO not sure if this is correct, the points don't plot to the edges of the plot (like they in the lecture slide image) 
 subplot(1,3,3), loglog(A.Z(:), S.Z(:), '.'), axis square
+
+%% plot the A vs S plot alone
+close all
+loglog(A.Z(:), S.Z(:), '.')
+xlabel ('A [m^2]');
+ylabel ('S []');
+xlim([900-100, max(A.Z(:))]);
 
 %% drainage basins
 % Find basins that drain to DEM boundaries, using SDF (D8)
