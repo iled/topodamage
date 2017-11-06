@@ -78,7 +78,7 @@ for i = 1:numel(topo)
     hold on
     coord = locations{i};
     plot(coord{1}, coord{2}, 'ok', coord{3}, coord{4},'sr')
-    % legend('low slope', 'high slope')
+    legend('low', 'high')
     %imagesc(topo{i})
     title(topo_title{i});
     hold off
