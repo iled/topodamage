@@ -106,6 +106,12 @@ drainage_density = drainagedensity(stream, FD);
 imagesc(log(drainage_density * DEM2.cellsize)) % TODO: confirm that it should be expontentially distributed
 colorbar
 
+%% convert age of houses shp to raster, scaled down the pixels, hacked a tfw file, and filtered out values of zero
+agehouses=GRIDobj('resources/agehouses_tmp3.tif');
+agehouses.Z(agehouses.Z==0)=NaN;
+subplot(1,2,1), imagesc(agehouses), axis square
+subplot(1,2,2), imagesc(DEM), axis square
+
 %% save results
 GRIDobj2geotiff(DEM2, 'tmp/DEM30_gauss')
 GRIDobj2geotiff(DEMf, 'tmp/DEM30_gauss_filled')
