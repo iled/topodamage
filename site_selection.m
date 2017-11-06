@@ -52,16 +52,24 @@ end
 %% plot age of housing distribution
 histogram(housing_age_avg.Z)
 
+%% log drainage density
+% using the averaged drainage density results weird
+% here storing the log drainage density that will be used below
+log_drainage_density = drainage_density;
+log_drainage_density.Z = log(log_drainage_density.Z);
+
 %% analyze each one of the topographic metrics, fix non-topographic
-topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
+topo = {drainage_area_avg, log_drainage_density, slope_avg, wetness_index_avg}; % TODO: not using drainage_density_avg
 nontopo = {housing_age, canopy_avg, impervious_avg, soil_avg}; % TODO: fix and use housing average
 locations = cell(1, numel(topo));
 for i = 1:numel(topo)
     [xl, yl, xh, yh] = perc_analysis(topo{i}, nontopo);
     locations{i} = {xl, yl, xh, yh};
 end
+
 %% plot each of the topographic metrics, with fixed non-topographic
 close all
+topo_title = {'Drainage area', 'Drainage density', 'Slope', 'Wetness index'};
 
 for i = 1:numel(topo)
     subplot(2, 2, i)
@@ -70,7 +78,8 @@ for i = 1:numel(topo)
     hold on
     coord = locations{i};
     plot(coord{1}, coord{2}, 'ok', coord{3}, coord{4},'sr')
+    % legend('low slope', 'high slope')
     %imagesc(topo{i})
-    %title();
+    title(topo_title{i});
     hold off
 end
