@@ -83,8 +83,3 @@ for i = 1:numel(topo)
     title(topo_title{i});
     hold off
 end
-
-subplot(2,2,1), title('drainage area')
-subplot(2,2,2), title('drainage density')
-subplot(2,2,3), title('slope')
-subplot(2,2,4), title('wetness index')
