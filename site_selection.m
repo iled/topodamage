@@ -29,7 +29,7 @@ impervious_avg = impervious;
 soil_avg = soil;
 
 n_px = 11;
-h = ones(n_px, n_px);
+h = ones(n_px, n_px) / n_px ^ 2;
 
 grids = {DEM, drainage_area, drainage_density, slope, wetness_index, ...
     housing_age, canopy, impervious, soil};
