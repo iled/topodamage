@@ -92,11 +92,21 @@ log_drainage_density = drainage_density;
 log_drainage_density.Z = log(log_drainage_density.Z);
 
 %% analyze each one of the topographic metrics, fix non-topographic
-topo = {drainage_area_avg, log_drainage_density, slope_avg, wetness_index_avg}; % TODO: not using drainage_density_avg
-nontopo = {housing_age, canopy_avg, impervious_avg, soil_avg}; % TODO: fix and use housing average
+%% v1: using the percentiles criteria, only fixing nontopo
+topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
+nontopo = {housing_age, canopy_avg, impervious_avg, soil_avg};
 locations = cell(1, numel(topo));
 for i = 1:numel(topo)
     [xl, yl, xh, yh] = perc_analysis(topo{i}, nontopo);
+    locations{i} = {xl, yl, xh, yh};
+end
+
+%% v2: using the similar ranges criteria, only fixing nontopo
+topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
+nontopo = {housing_age, canopy_avg, impervious_avg, soil_avg};
+locations = cell(1, numel(topo));
+for i = 1:numel(topo)
+    [xl, yl, xh, yh] = range_analysis(topo{i}, nontopo);
     locations{i} = {xl, yl, xh, yh};
 end
 
@@ -110,7 +120,7 @@ for i = 1:numel(topo)
     imagesc(topo{i});
     hold on
     coord = locations{i};
-    plot(coord{1}, coord{2}, 'ok', coord{3}, coord{4},'sr')
+    plot(coord{1}, coord{2}, 'og', coord{3}, coord{4},'sr')
     legend('low', 'high')
     %imagesc(topo{i})
     title(topo_title{i});
