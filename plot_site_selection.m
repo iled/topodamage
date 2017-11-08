@@ -32,11 +32,22 @@ for i = 1:n_figs
     if n_figs > 1
         subplot(2, 2, i)
     end
+    % workaround to plot discrete scale bar for soils
     if numel(sub_images) == 1
         imagesc(sub_images)
+        varname = 'sub_images.Z';
+        name = sub_images.name;
     else
         imagesc(sub_images{i});
+        varname = 'sub_images{i}.Z';
+        name = sub_images{i}.name;
     end
+    if sum(ismember('soil', name)) == 4
+        colormap(jet(numel(unique(eval(varname)))))
+    else
+        colormap default
+    end
+    % end workaround for colorbar
     hold on
     coord = locations{i};
     gscatter(coord{1}, coord{2}, coord{5}, 'mgr', 'o', 8, 'off')

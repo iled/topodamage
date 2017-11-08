@@ -9,7 +9,7 @@
 % DEBUG: section used for debugging purposes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% DATA: load data
+%% RUN: load data
 % topographic metrics
 DEM = GRIDobj('resources/DEM30_gauss_filled.tif');
 drainage_area = GRIDobj('resources/drainage_area_mdf.tif');
