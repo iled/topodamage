@@ -1,8 +1,13 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Topographic Analysis - HW5
 % Sam Mark, Arielle Woods, Julio Caineta
-% Site selection
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Topographic maps generation
+% 
+% Sections start with meaningful keywords:
+% RUN: section is required to be run
+% FIG: section only used to make some plot
+% DEBUG: section used for debugging purposes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% DATA: load data
 % topographic metrics
@@ -29,7 +34,7 @@ housing_age.cellsize = DEM.cellsize;
 topo_title = {'Drainage area', 'Drainage density', 'Slope', 'Wetness index'};
 
 %% RUN: compute averages over 3 standard city blocks (330 m x 330 m)
-% excluded, have onw filters below: drainage density, housing age, soil
+% excluded here, as they have onw filters below: drainage density, housing age, soil
 DEM_avg = DEM;
 drainage_area_avg = drainage_area;
 slope_avg = slope;
@@ -133,6 +138,18 @@ end
 %% DEBUG: plot age of housing distribution
 histogram(housing_age_avg.Z)
 
+%% DEBUG: log drainage area and density
+% this is a test to evaluate the effect of considering drainage density
+% and drainage area as log-like distributed
+% add this to the v-test: log_metrics = {log_drainage_area_avg.name};
+log_drainage_area_avg = drainage_area_avg;
+log_drainage_area_avg.Z = log(log_drainage_area_avg.Z);
+log_drainage_density_avg = drainage_density_avg;
+log_drainage_density_avg.Z = log(log_drainage_density_avg.Z);
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% SITE SELECTION TESTS %
+%%%%%%%%%%%%%%%%%%%%%%%%
 %% RUN: analyze each one of the topographic metrics, fix non-topographic
 %% v1: using the percentiles criteria, only fixing nontopo, excluding soil
 test_v = 'v1';
@@ -191,15 +208,6 @@ for i = 1:numel(topo)
     [xl, yl, xh, yh] = perc_analysis(topo{i}, [topo(1:end ~= i) nontopo], log_metrics);
     locations{i} = {xl, yl, xh, yh};
 end
-
-%% DEBUG: log drainage area and density
-% this is a test to evaluate the effect of considering drainage density
-% and drainage area as log-like distributed
-% add this to the v-test: log_metrics = {log_drainage_area_avg.name};
-log_drainage_area_avg = drainage_area_avg;
-log_drainage_area_avg.Z = log(log_drainage_area_avg.Z);
-log_drainage_density_avg = drainage_density_avg;
-log_drainage_density_avg.Z = log(log_drainage_density_avg.Z);
 
 %% v6: using the percentiles criteria, fixing topo and nontopo, exclude soil
 % exclude soil and drainage density
@@ -270,5 +278,5 @@ shg
 print(['site_selection_' test_v], '-djpeg', '-r300')
 test_v = test_bckp;
 
-%% DEBUG: save selected points
+%% RUN: save selected points, used in the main file
 save('site_selection', 'locations')
