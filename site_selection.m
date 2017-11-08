@@ -9,8 +9,6 @@ wetness_index = GRIDobj('resources/wetness_index.tif');
 housing_age = GRIDobj('resources/agehouses_tmp3.tif');
 canopy  = GRIDobj('resources/canopyclipped.tif');
 impervious = GRIDobj('resources/impervious_final.tif');
-    % can exchange for soils_13.tif to run using most simplified soils
-    % categories
 soil = GRIDobj('resources/soils_13.tif');
 
 % fix impervious map
@@ -125,10 +123,10 @@ end
 histogram(housing_age_avg.Z)
 
 %% RUN: analyze each one of the topographic metrics, fix non-topographic
-%% v1: using the percentiles criteria, only fixing nontopo
+%% v1: using the percentiles criteria, only fixing nontopo, excluding soil
 test_v = 'v1';
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
-nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
+nontopo = {housing_age_avg, canopy_avg, impervious_avg};
 locations = cell(1, numel(topo));
 log_metrics = {wetness_index_avg.name};
 for i = 1:numel(topo)
@@ -136,10 +134,10 @@ for i = 1:numel(topo)
     locations{i} = {xl, yl, xh, yh};
 end
 
-%% v2: using the similar ranges criteria, only fixing nontopo
+%% v2: using the similar ranges criteria, only fixing nontopo, excluding soil
 test_v = 'v2';
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
-nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
+nontopo = {housing_age_avg, canopy_avg, impervious_avg};
 locations = cell(1, numel(topo));
 log_metrics = {wetness_index_avg.name};
 for i = 1:numel(topo)
@@ -152,17 +150,17 @@ test_v = 'v3';
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
 nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
 locations = cell(1, numel(topo));
-%log_metrics = {wetness_index_avg.name};
-log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
+log_metrics = {wetness_index_avg.name};
+%log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
 for i = 1:numel(topo)
     [xl, yl, xh, yh] = range_analysis(topo{i}, topo(1:end ~= i), log_metrics);
     locations{i} = {xl, yl, xh, yh};
 end
 
-%% v4: using the similar ranges criteria, fixing topo and all nontopo
+%% v4: using the similar ranges criteria, fixing topo and all nontopo, except soil
 test_v = 'v4';
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
-nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
+nontopo = {housing_age_avg, canopy_avg, impervious_avg};
 locations = cell(1, numel(topo));
 log_metrics = {wetness_index_avg.name};
 %log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
@@ -171,20 +169,58 @@ for i = 1:numel(topo)
     locations{i} = {xl, yl, xh, yh};
 end
 
-%% v5: using the percentiles criteria, fixing topo and all nontopo
+%% v5: using the percentiles criteria, fixing topo and all nontopo, except soil
 test_v = 'v5';
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
-nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
+nontopo = {housing_age_avg, canopy_avg, impervious_avg};
 locations = cell(1, numel(topo));
-%log_metrics = {wetness_index_avg.name};
-log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
+log_metrics = {wetness_index_avg.name};
+%log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
 for i = 1:numel(topo)
     [xl, yl, xh, yh] = perc_analysis(topo{i}, [topo(1:end ~= i) nontopo], log_metrics);
     locations{i} = {xl, yl, xh, yh};
 end
 
+%% DEBUG: log drainage area and density
+% this is a test to evaluate the effect of considering drainage density
+% and drainage area as log-like distributed
+% add this to the v-test: log_metrics = {log_drainage_area_avg.name};
+log_drainage_area_avg = drainage_area_avg;
+log_drainage_area_avg.Z = log(log_drainage_area_avg.Z);
+log_drainage_density_avg = drainage_density_avg;
+log_drainage_density_avg.Z = log(log_drainage_density_avg.Z);
+
+%% v6: using the percentiles criteria, fixing topo and nontopo, exclude soil
+% exclude soil and drainage density
+test_v = 'v6';
+topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
+nontopo = {housing_age_avg, canopy_avg, impervious_avg};
+locations = cell(1, numel(topo));
+log_metrics = {wetness_index_avg.name};
+%log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
+for i = 1:numel(topo)
+    [xl, yl, xh, yh] = perc_analysis(topo{i}, ...
+        [topo(~ismember(1:end, [i, 2])) nontopo], log_metrics);
+    locations{i} = {xl, yl, xh, yh};
+end
+
+%% v7: using the similar ranges criteria, fixing topo and nontopo,
+% exclude soil and drainage density
+test_v = 'v7';
+topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
+nontopo = {housing_age_avg, canopy_avg, impervious_avg}; %, soil_avg canopy_avg,
+locations = cell(1, numel(topo));
+log_metrics = {wetness_index_avg.name};
+%log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
+for i = 1:numel(topo)
+    [xl, yl, xh, yh] = range_analysis(topo{i}, ...
+        [topo(~ismember(1:end, [i, 2])) nontopo], log_metrics);
+    locations{i} = {xl, yl, xh, yh};
+end
+
 %% FIG: plot each of the topographic metrics, with fixed non-topographic
-close all
+%close all
+figure('NumberTitle', 'off', 'Name', test_v)
 topo_title = {'Drainage area', 'Drainage density', 'Slope', 'Wetness index'};
 
 for i = 1:numel(topo)
@@ -203,4 +239,4 @@ end
 
 shg
 %% DEBUG: save plot
-print('perc_analysis', '-djpeg', '-r300')
+print(['perc_analysis_' test_v], '-djpeg', '-r300')
