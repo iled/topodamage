@@ -37,7 +37,7 @@ if nargin > 2
                 var_names{i} = fixed_vars{i - 1}.name;
             end
         end
-        log_flag = strcmp(var_names, log_names);
+        log_flag = ismember(var_names, log_names);
     end
 end
 

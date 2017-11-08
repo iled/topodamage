@@ -139,7 +139,8 @@ end
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
 nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
 locations = cell(1, numel(topo));
-log_metrics = {wetness_index_avg.name};
+%log_metrics = {wetness_index_avg.name};
+log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
 for i = 1:numel(topo)
     [xl, yl, xh, yh] = range_analysis(topo{i}, topo(1:end ~= i), log_metrics);
     locations{i} = {xl, yl, xh, yh};
