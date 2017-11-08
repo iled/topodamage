@@ -10,36 +10,41 @@
 
 %% load data
 DEM = GRIDobj('resources/Clip_30mProject.tif');
-% TODO: remove one
-drainage_area = GRIDobj('resources/drainage_area_mdf.tif');
-drainage_density = GRIDobj('resources/drainage_density_fixed.tif');
-slope = GRIDobj('resources/slope_gauss.tif');
-wetness_index = GRIDobj('resources/wetness_index.tif');
-% TODO: load only the 6 selected sites
-% 'locations' uses the same syntax as in site_selection
-sites = load('site_selection.mat', 'locations');
+% loading the averaged (mean filter) maps that are better for visualization
+drainage_area = GRIDobj('resources/drainage_area_mdf_filtered.tif');
+drainage_density = GRIDobj('resources/drainage_density_filtered.tif');
+slope = GRIDobj('resources/slope_filtered.tif');
+sites = load('coordinates.mat');
 
 %% c) Selected sites over a DEM
-% TODO: merge points after loading the 6 selected
 figure
-imagesc(DEM), colorbar
+imagesc(DEM)
+cz = colorbar;
+cz.Label.String = 'Elevation [masl]';
+colors = {'g', 'r', 'm'};
 hold on
-plot(sites.locations{1}{1}, sites.locations{1}{2}, 'rx', 'MarkerSize', 8)
+for i = 1:3
+    plot(sites.coordinates{i}(:, 1), sites.coordinates{i}(:, 2), 'p', ...
+        'MarkerSize', 15, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', colors{i})
+end
+legend('Drainage area', 'Slope', 'Drainage density')
 title('Site locations over the DEM')
 shg
 
 %% d) Selected sites over each topographic parameter
-% TODO: exclude one
-topo_params = {drainage_area, drainage_density, slope, wetness_index};
-topo_title = {'Drainage area', 'Drainage density', 'Slope', 'Wetness index'};
+topo_params = {drainage_area, drainage_density, slope};
+topo_title = {'Drainage area', 'Drainage density', 'Slope'};
+bar_title = {'[m^2]', '[m^{-1}]', '[.]'};
+colors = {'g', 'r', 'm'};
 
 for i = 1:3
     subplot(1, 3, i)
     imagesc(topo_params{i});
     hold on
-    coord = sites.locations{i};
-    plot(sites.locations{i}{1}, sites.locations{i}{2}, 'rx', 'MarkerSize', 8)
+    plot(sites.coordinates{i}(:, 1), sites.coordinates{i}(:, 2), 'p', ...
+        'MarkerSize', 15, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', colors{i})
     title(topo_title{i});
-    colorbar
+    cz = colorbar;
+    cz.Label.String = bar_title{i};
     hold off
 end
