@@ -263,3 +263,6 @@ shg
 %% DEBUG: save plot
 print(['site_selection_' test_v], '-djpeg', '-r300')
 test_v = test_bckp;
+
+%% DEBUG: save selected points
+save('site_selection', 'locations')

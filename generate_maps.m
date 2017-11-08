@@ -17,7 +17,7 @@ shg
 subplot(1,2,1), imagesc(DEM), title('unfiltered DEM')
 subplot(1,2,2), imagesc(DEM2), title('filtered DEM')
 
-%%
+%% Compute drainage area, slope, and wetness index
 
 %fill sinks in DEM
 DEMf = fillsinks(DEM2);

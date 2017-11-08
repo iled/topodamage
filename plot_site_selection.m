@@ -26,9 +26,12 @@ end
 f = figure('Visible', vis, 'NumberTitle', 'off', 'Name', test_name, ...
     'units','normalized','outerposition',[0 0 1 1]);
 
-for i = 1:numel(sub_titles)
-    subplot(2, 2, i)
-    %imageschs(DEM)
+n_figs = numel(sub_titles);
+
+for i = 1:n_figs
+    if n_figs > 1
+        subplot(2, 2, i)
+    end
     if numel(sub_images) == 1
         imagesc(sub_images)
     else
@@ -36,12 +39,10 @@ for i = 1:numel(sub_titles)
     end
     hold on
     coord = locations{i};
-    %plot(coord{1}, coord{2}, 'og', coord{3}, coord{4},'sr')
     gscatter(coord{1}, coord{2}, coord{5}, 'mgr', 'o', 8, 'off')
     gscatter(coord{3}, coord{4}, coord{6}, 'mgr', '+', 8, 'off')
     legend('low-low', 'high-low', 'low-med', 'high-med','low-high', 'high-high', ...
         'Location', 'northwestoutside')
-    %imagesc(topo{i})
     title(sub_titles{i});
     colorbar
     hold off
