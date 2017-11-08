@@ -1,3 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Topographic Analysis - HW5
+% Sam Mark, Arielle Woods, Julio Caineta
+% Site selection
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% DATA: load data
 % topographic metrics
 DEM = GRIDobj('resources/DEM30_gauss_filled.tif');

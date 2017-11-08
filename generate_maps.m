@@ -1,3 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Topographic Analysis - HW5
+% Sam Mark, Arielle Woods, Julio Caineta
+% Topographic maps generation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% load DEM
 
 DEM = GRIDobj('resources/Clip_30mProject.tif');
