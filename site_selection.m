@@ -55,11 +55,13 @@ drainage_density_avg.Z(drainage_density_avg.Z == -1) = NaN;
 %% FIG: plot original drainage density vs filtered
 subplot(1, 2, 1)
 imagesc(drainage_density), colorbar
+title('original drainage density')
 subplot(1, 2, 2)
 imagesc(drainage_density_avg), colorbar
+title('filtered drainage density with max filter')
 
 %% RUN: specific filter for age of housing: min filter with edge n_px
-n_px = 5;
+n_px = 5; % didn't work well with n_px = 11
 housing_age_avg = housing_age;
 housing_age_avg.Z = fillmissing(housing_age_avg.Z, 'constant', 9999);
 housing_age_avg.Z = ordfilt2(housing_age_avg.Z, 1, ones(n_px, n_px));
@@ -69,8 +71,10 @@ housing_age_avg.Z(housing_age_avg.Z == 0) = NaN;
 %% DEBUG: plot original housing age vs filtered
 subplot(1, 2, 1)
 imagesc(housing_age), colorbar
+title('original housing age (year built)')
 subplot(1, 2, 2)
 imagesc(housing_age_avg), colorbar
+title('filtered housing age with min filter')
 
 %% RUN: specific filter for soil: mode filter with edge n_px
 n_px = 11;
@@ -82,8 +86,10 @@ figure
 colormap(jet(numel(unique(soil_avg.Z))))
 subplot(1, 2, 1)
 imagesc(soil), colorbar
+title('original soils type')
 subplot(1, 2, 2)
 imagesc(soil_avg), colorbar
+title('filtered soils type with mode filter')
 
 %% RUN: update grids cell arrays
 grids{1, end + 1} = drainage_density;
@@ -92,9 +98,6 @@ grids{1, end + 1} = housing_age;
 grids_avg{1, end + 1} = 'housing_age_avg';
 grids{1, end + 1} = soil;
 grids_avg{1, end + 1} = 'soil_avg';
-
-%% DEBUG: save plot
-print('age_houses_minfilter5x5', '-djpeg', '-r300')
 
 %% RUN: crop averaged grids to fix borders after filtering
 for i = 1:numel(grids)
