@@ -13,7 +13,7 @@
 
 DEM = GRIDobj('resources/Clip_30mProject.tif');
 DEM.cellsize=30;
-
+%%
 hsize=5;
 sigma=0.7;
 h = fspecial('gaussian', hsize, sigma);
@@ -41,6 +41,7 @@ S=gradient8(DEM2);
 %wetness index
 W=DEMf;
 W.Z=log((A.Z/DEMf.cellsize)./S.Z);
+
 
 %% FIG: plot drainage area + slope + drainage area vs slope
 subplot(1,3,1), imagesc(log(A)), title('log(A)')
@@ -107,9 +108,9 @@ drainage_density_approx = length(channel_px) * DEM2.cellsize ./ area_map;
 
 %% RUN: compute approximate drainage density using stream object
 % area threshold per unit area
-area_threshold_unit = area_threshold / DEM2.cellsize ^ 2;
+area_threshold_unit = area_threshold / DEM2.cellsize.^2;
 % create stream object defining the upslope area threshold for channel initiaiton (minarea)
-stream = STREAMobj(FD, 'minarea', area_threshold_unit);
+stream = STREAMobj(flow_direction_sdf, 'minarea', area_threshold_unit);
 
 %% FIG: plot approximate drainage density    
 imageschs(DEM2);
@@ -119,7 +120,7 @@ hold off
 shg
 
 %% RUN: compute drainage densit
-drainage_density = drainagedensity(stream, FD);
+drainage_density = drainagedensity(stream, flow_direction_sdf);
 
 %% FIG: plot drainage density
 imagesc(drainage_density * DEM2.cellsize)
