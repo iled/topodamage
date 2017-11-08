@@ -271,7 +271,7 @@ shg
 %close all
 test_name = [test_v '_canopy'];
 save_figure = 'on';
-plot_site_selection(soil_avg, locations, topo_title, test_name, save_figure)
+plot_site_selection(canopy_avg, locations, topo_title, test_name, save_figure)
 shg
 
 %% DEBUG: save plot
