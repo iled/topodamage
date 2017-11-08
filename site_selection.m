@@ -9,7 +9,9 @@ wetness_index = GRIDobj('resources/wetness_index.tif');
 housing_age = GRIDobj('resources/agehouses_tmp3.tif');
 canopy  = GRIDobj('resources/canopyclipped.tif');
 impervious = GRIDobj('resources/impervious_final.tif');
-soil = GRIDobj('resources/soils_final.tif');
+    % can exchange for soils_13.tif to run using most simplified soils
+    % categories
+soil = GRIDobj('resources/soils_39.tif');
 
 % fix impervious map
 impervious.refmat = DEM.refmat;
@@ -20,7 +22,7 @@ housing_age.refmat = DEM.refmat;
 housing_age.cellsize = DEM.cellsize;
 
 %% DATA: simplified soil
-soil2 = GRIDobj('resources/soils_color_number_codes_Pol51.tif');
+soil2 = GRIDobj('resources/soils_13.tif');
 imagesc(soil2)
 %% DEBUG: simplified soil
 histogram(soil2.Z, 'Normalization', 'probability')
