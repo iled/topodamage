@@ -117,8 +117,9 @@ histogram(housing_age_avg.Z)
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
 nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
 locations = cell(1, numel(topo));
+log_metrics = {wetness_index_avg.name};
 for i = 1:numel(topo)
-    [xl, yl, xh, yh] = perc_analysis(topo{i}, nontopo);
+    [xl, yl, xh, yh] = perc_analysis(topo{i}, nontopo, log_metrics);
     locations{i} = {xl, yl, xh, yh};
 end
 
@@ -126,8 +127,9 @@ end
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
 nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
 locations = cell(1, numel(topo));
+log_metrics = {wetness_index_avg.name};
 for i = 1:numel(topo)
-    [xl, yl, xh, yh] = range_analysis(topo{i}, nontopo);
+    [xl, yl, xh, yh] = range_analysis(topo{i}, nontopo, log_metrics);
     locations{i} = {xl, yl, xh, yh};
 end
 
@@ -135,8 +137,9 @@ end
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
 nontopo = {housing_age_avg, canopy_avg, impervious_avg, soil_avg};
 locations = cell(1, numel(topo));
+log_metrics = {wetness_index_avg.name};
 for i = 1:numel(topo)
-    [xl, yl, xh, yh] = range_analysis(topo{i}, topo(1:end ~= i));
+    [xl, yl, xh, yh] = range_analysis(topo{i}, topo(1:end ~= i), log_metrics);
     locations{i} = {xl, yl, xh, yh};
 end
 
