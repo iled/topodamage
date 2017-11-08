@@ -23,7 +23,8 @@
 
 - using the **similar ranges** criteria
 - fixing all topo
-- fixing nontopo, except soill
+- fixing nontopo, except soil
+
 ## v5
 
 - using the **percentiles criteria**
