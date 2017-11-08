@@ -128,12 +128,23 @@ for i = 1:numel(grids)
     fprintf('size: %d, %d\n\n', size(tempval.Z, 1), size(tempval.Z, 2))
 end
 
-%% FIG: plot the averaged grids
+%% FIG: plot the filtered grids
 for i = 1:numel(grids)
     subplot(3, 3, i)
     imagesc(eval(grids_avg{i}));
     title(grids_avg{i}, 'Interpreter', 'none');
 end
+
+%% DEBUG: save the filtered grids
+GRIDobj2geotiff(DEM_avg, 'resources/DEM_filtered.tif')
+GRIDobj2geotiff(drainage_area_avg, 'resources/drainage_area_mdf_filtered.tif')
+GRIDobj2geotiff(slope_avg, 'resources/slope_filtered.tif')
+GRIDobj2geotiff(wetness_index_avg, 'resources/wetness_index_filtered.tif')
+GRIDobj2geotiff(drainage_density_avg, 'resources/drainage_density_filtered.tif')
+GRIDobj2geotiff(housing_age_avg, 'resources/housing_age_filtered.tif')
+GRIDobj2geotiff(impervious_avg, 'resources/impervious_filtered.tif')
+GRIDobj2geotiff(soil_avg, 'resources/soil_filtered.tif')
+GRIDobj2geotiff(canopy_avg, 'resources/canopy_filtered.tif')
 
 %% DEBUG: plot age of housing distribution
 histogram(housing_age_avg.Z)
@@ -280,3 +291,13 @@ test_v = test_bckp;
 
 %% RUN: save selected points, used in the main file
 save('site_selection', 'locations')
+
+%% RUN: save selection of 6 sites, 2 per topographic metric
+%% row 1 is high, row 2 is low
+% the coordinates were taken from an interactive plot
+drainage_area_coords = [585181.1115, 4477942.9546; 582121.5172, 4474555.5467];
+slope_coords = [589278.7824, 4484034.8252; 589907.092, 4483843.6007];
+drainage_density_coords = [583816.9, 4480538.1; 583350.8, 4480483.5];
+coordinates = {drainage_area_coords, slope_coords, drainage_density_coords};
+%save('coordinates', 'drainage_area_coords', 'slope_coords', 'drainage_density_coords');
+save('coordinates', 'coordinates');
