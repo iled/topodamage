@@ -1,5 +1,5 @@
 function [x_low, y_low, x_high, y_high] = perc_analysis(study_var, fixed_vars, log_names)
-% [x_low, y_low, x_high, y_high] = perc_analysis(study_var, fixed_vars)
+% [x_low, y_low, x_high, y_high] = perc_analysis(study_var, fixed_vars, log_names)
 % Compute the coordinates corresponding to the points where the values of
 % the study variable are within a low and high range, and all of the fixed_vars
 % are within a median range.

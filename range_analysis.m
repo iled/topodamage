@@ -1,5 +1,5 @@
-function [x_low, y_low, x_high, y_high] = range_analysis(study_var, fixed_vars, log_names)
-% [x_low, y_low, x_high, y_high] = range_analysis(study_var, fixed_vars)
+function [x_low, y_low, x_high, y_high, ranges_low, ranges_high] = range_analysis(study_var, fixed_vars, log_names)
+% [x_low, y_low, x_high, y_high, ranges_low, ranges_high] = range_analysis(study_var, fixed_vars, log_names)
 % Compute the coordinates corresponding to the points where the values of
 % the study variable are within a low and high range, and all of the fixed_vars
 % are within the same range (low, median, or high).
@@ -12,6 +12,11 @@ function [x_low, y_low, x_high, y_high] = range_analysis(study_var, fixed_vars, 
 % study_var
 % x_high, y_high are the (x, y) coordinates of the points for low values of the
 % study_var
+% ranges_low is a row vector that contains integer IDs that tell from which range
+% the selected points come from, for low values of the study_var
+% ranges_high is a row vector that contains integer IDs that tell from which range
+% the selected points come from, for high values of the study_var
+% ranges IDs: 1 = low, 2 = medium, 3 = high.
 % Julio Caineta Nov 6 2017
 
 %low percentile max
@@ -111,4 +116,13 @@ x_low = [x_low1; x_low2; x_low3];
 y_low = [y_low1; y_low2; y_low3];
 x_high = [x_high1; x_high2; x_high3];
 y_high = [y_high1; y_high2; y_high3];
+
+% output a code to identify from which range the points come from
+% 1 = low, 2 = medium, 3 = high
+ranges_low = [repmat(1, 1, numel(x_low1)), ...
+    repmat(2, 1, numel(x_low2)), ...
+    repmat(3, 1, numel(x_low3))];
+ranges_high = [repmat(1, 1, numel(x_high1)), ...
+    repmat(2, 1, numel(x_high2)), ...
+    repmat(3, 1, numel(x_high3))];
 end

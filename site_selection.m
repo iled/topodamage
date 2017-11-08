@@ -19,6 +19,9 @@ housing_age.Z(housing_age.Z < 1755) = NaN;
 housing_age.refmat = DEM.refmat;
 housing_age.cellsize = DEM.cellsize;
 
+% titles of the four topographic metrics (used to plot)
+topo_title = {'Drainage area', 'Drainage density', 'Slope', 'Wetness index'};
+
 %% RUN: compute averages over 3 standard city blocks (330 m x 330 m)
 % excluded, have onw filters below: drainage density, housing age, soil
 DEM_avg = DEM;
@@ -226,30 +229,34 @@ locations = cell(1, numel(topo));
 log_metrics = {wetness_index_avg.name};
 %log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
 for i = 1:numel(topo)
-    [xl, yl, xh, yh] = range_analysis(topo{i}, ...
+    [xl, yl, xh, yh, ranges_l, ranges_h] = range_analysis(topo{i}, ...
         [topo(~ismember(1:end, [i, 2])) nontopo], log_metrics);
-    locations{i} = {xl, yl, xh, yh};
+    locations{i} = {xl, yl, xh, yh, ranges_l, ranges_h};
 end
 
-%% FIG: plot each of the topographic metrics, with fixed non-topographic
+%% FIG: plot the results of the last site selection test (vN)
 %close all
-figure('NumberTitle', 'off', 'Name', test_v)
-topo_title = {'Drainage area', 'Drainage density', 'Slope', 'Wetness index'};
-
-for i = 1:numel(topo)
-    subplot(2, 2, i)
-    %imageschs(DEM)
-    imagesc(topo{i});
-    hold on
-    coord = locations{i};
-    plot(coord{1}, coord{2}, 'og', coord{3}, coord{4},'sr')
-    legend('low', 'high')
-    %imagesc(topo{i})
-    title(topo_title{i});
-    colorbar
-    hold off
-end
-
+test_name = test_v;
+save_figure = 'on';
+plot_site_selection(topo, locations, topo_title, test_name, save_figure)
 shg
+
+%% FIG: plot the result of the last site selection test (vN)
+% these plots are against the soil raster
+%close all
+test_name = [test_v '_soil'];
+save_figure = 'on';
+plot_site_selection(soil_avg, locations, topo_title, test_name, save_figure)
+shg
+
+%% FIG: plot the result of the last site selection test (vN)
+% these plots are against the canopy raster
+%close all
+test_name = [test_v '_canopy'];
+save_figure = 'on';
+plot_site_selection(soil_avg, locations, topo_title, test_name, save_figure)
+shg
+
 %% DEBUG: save plot
 print(['site_selection_' test_v], '-djpeg', '-r300')
+test_v = test_bckp;
