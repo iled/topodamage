@@ -70,10 +70,9 @@ subplot(1, 2, 2)
 imagesc(housing_age_avg), colorbar
 
 %% RUN: specific filter for soil: mode filter with edge n_px
-% SLOW: this is slow, may take a few minutes, depending on n_px
-n_px = 5;  % didn't work well with 11
+n_px = 11;
 soil_avg = soil;
-soil_avg.Z = mode_filter(soil_avg.Z, n_px);
+soil_avg.Z = colfilt(soil.Z, [n_px, n_px], 'sliding', @mode);
 
 %% DEBUG: plot original soil vs filtered
 figure
