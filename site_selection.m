@@ -208,7 +208,21 @@ end
 % exclude soil and drainage density
 test_v = 'v7';
 topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
-nontopo = {housing_age_avg, canopy_avg, impervious_avg}; %, soil_avg canopy_avg,
+nontopo = {housing_age_avg, canopy_avg, impervious_avg}; %, soil_avg
+locations = cell(1, numel(topo));
+log_metrics = {wetness_index_avg.name};
+%log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
+for i = 1:numel(topo)
+    [xl, yl, xh, yh] = range_analysis(topo{i}, ...
+        [topo(~ismember(1:end, [i, 2])) nontopo], log_metrics);
+    locations{i} = {xl, yl, xh, yh};
+end
+
+%% v8: using the similar ranges criteria, fixing topo and nontopo,
+% exclude soil, canopy and drainage density
+test_v = 'v8';
+topo = {drainage_area_avg, drainage_density_avg, slope_avg, wetness_index_avg};
+nontopo = {housing_age_avg, impervious_avg}; %, soil_avg canopy_avg,
 locations = cell(1, numel(topo));
 log_metrics = {wetness_index_avg.name};
 %log_metrics = {drainage_area_avg.name, drainage_density_avg.name, wetness_index_avg.name};
@@ -239,4 +253,4 @@ end
 
 shg
 %% DEBUG: save plot
-print(['perc_analysis_' test_v], '-djpeg', '-r300')
+print(['site_selection_' test_v], '-djpeg', '-r300')

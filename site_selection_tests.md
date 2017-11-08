@@ -41,3 +41,9 @@
 - using the **similar ranges** criteria
 - fixing topo, except drainage density
 - fixing nontopo, except soil
+
+## v8
+
+- using the **similar ranges** criteria
+- fixing topo, except drainage density
+- fixing nontopo, except soil and canopy
