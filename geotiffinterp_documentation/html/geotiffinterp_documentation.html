@@ -1,0 +1,320 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>geotiffinterp</title><meta name="generator" content="MATLAB 8.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-09-21"><meta name="DC.source" content="geotiffinterp_documentation.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1><tt>geotiffinterp</tt></h1><!--introduction--><p>This function interpolates values of a georeferenced tiff file, given lat/lon coordinates or map x/y locations corresponding to the map projection associated with the tiff file. This function is <i>fast</i> because even if the GeoTIFF file is quite large, only a region of the image large enough to perform interpolation is loaded.  This function was designed to easily probe GeoTIFF datasets such as digital elevation maps (DEMs) or other geospatial data arrays. It <i>can</i> be used to interpolate values from a georeferenced satellite image, but if you're working with images, other functions such as <a href="http://www.mathworks.com/matlabcentral/fileexchange/46904"><tt>geotiffreadregion</tt></a> may be more useful.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">A data set for some examples</a></li><li><a href="#4">Ice thickness at a single point</a></li><li><a href="#10">Regridding a data set</a></li><li><a href="#15">Author Info</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>Ai = geotiffinterp(filename,lati,loni)
+Ai = geotiffinterp(filename,xi,yi)
+Ai = geotiffinterp(...,InterpolationMethod)
+Ai = geotiffinterp(...,'nanval',NanValue)
+Ai = geotiffinterp(...,'frame',FrameNumber)
+Ai = geotiffinterp(...,'show')</pre><h2>Description<a name="2"></a></h2><p><tt>Ai = geotiffinterp(filename,lati,loni)</tt> returns interpolated values of a tiff image at georeferenced locations given by <tt>lati</tt> and <tt>loni</tt>.</p><p><tt>Ai = geotiffinterp(filename,xi,yi)</tt> returns interpolated values a tiff image where <tt>xi</tt> and <tt>yi</tt> are units of distance (usually feet or meters) in projected map coordinates described by the projection metadata in the tiff file.  The way <tt>xi</tt> and <tt>yi</tt> are interpreted: if no value in <tt>xi</tt> has an absolute value exceeding 90 <i>and</i> no value in <tt>yi</tt> has an absolute value exceeding 360, then geographic coordinates of degrees are assumed.  Otherwise, the first two inputs after <tt>filename</tt> are assumed to be map x/y coordinates.</p><p><tt>Ai = geotiffinterp(...,InterpolationMethod)</tt> specifies an interpolation method as <tt>'nearest'</tt>, <tt>'linear'</tt>, <tt>'spline'</tt>, or <tt>'cubic'</tt>.  Default interpolation method is linear.</p><p><tt>Ai = geotiffinterp(...,'nanval',NanValue)</tt> sets a specified value in the tiff to <tt>NaN</tt> before interpolation. In GeoTIFF format, undefined values are often set to 32767 because the tiff format only stores integers. By default, <tt>geotiffinterp</tt> sets replaces all values of 32767 to <tt>NaN</tt> before interpolation. To prevent <tt>geotiffinterp</tt> from doing this, declare <tt>'nanval',NaN</tt>. To replace some other value, say 9999, to <tt>NaN</tt> before interpolation, use <tt>'nanval',9999</tt>.</p><p><tt>Ai = geotiffinterp(...,'frame',FrameNumber)</tt> specifies a frame number to interpolate, if the GeoTIFF contains multiple frames. Currently, <tt>FrameNumber</tt> can only have a single scalar value, so you'll have to loop <tt>geotiffinterp</tt> to probe multiple frames.  If the tiff file contains multiple frames and you do not specify which one you're interested in, <tt>geotiffinterp</tt> will only interpolate the first frame.  As this applies to georeferenced image tiffs with three slices corresponding to red, green, and blue, if you want all three colors you will have to run <tt>geotiffinterp</tt> once for each color.</p><p><tt>Ai = geotiffinterp(...,'show')</tt> plots the subsection of the tiff that is loaded by <tt>geotiffinterp</tt> in grayscale and overlays markers showing interpolation locations.</p><h2>A data set for some examples<a name="3"></a></h2><p>Matlab does not come with any built-in DEM example files in GeoTIFF format, so the following example will use elevation data from the <a href="https://secure.antarctica.ac.uk/data/bedmap2/bedmap2_tiff.zip">Bedmap2 Antarctic elevation dataset</a>. To follow along with this example, you can unzip the linked file into your current folder.  For other geospatial data sets in GeoTIFF format, try looking <a href="http://catalog.data.gov/dataset?metadata_type=geospatial&amp;res_format=TIFF&amp;_res_format_limit=0">here</a>.</p><h2>Ice thickness at a single point<a name="4"></a></h2><p>The first ice core to successfully penetrate the Antarctic ice sheet was at Byrd camp in 1968. The ice core was 2164 meters long and was drilled at (80.02S, 119.52W).  How closely does the Bedmap2 DEM match this thickness?</p><pre class="codeinput">geotiffinterp(<span class="string">'bedmap2_thickness.tif'</span>,-80.02,-119.52)
+</pre><pre class="codeoutput">ans =
+   2.1478e+03
+</pre><p>That's by the default linear interpolation.  For an elevation data set, cubic interpolation usually makes more sense:</p><pre class="codeinput">geotiffinterp(<span class="string">'bedmap2_thickness.tif'</span>,-80.02,-119.52,<span class="string">'cubic'</span>)
+</pre><pre class="codeoutput">ans =
+   2.1464e+03
+</pre><p>That's still not exact, but we can't expect to extract the exact value from a one-kilometer gridded data set.  For a sense of context, show the data point on a map:</p><pre class="codeinput">geotiffinterp(<span class="string">'bedmap2_thickness.tif'</span>,-80.02,-119.52,<span class="string">'cubic'</span>,<span class="string">'show'</span>);
+</pre><img vspace="5" hspace="5" src="geotiffinterp_documentation_01.png" alt=""> <p>Notice that <tt>geotiffinterp</tt> loads ten extra pixels on each side of the data of interest.  This to support fancy interpolation methods.</p><p>Using a coordinate conversion tool from the <a href="http://www.mathworks.com/matlabcentral/fileexchange/47638">Antarctic Mapping Tools</a> package, we can get the "easting" and "northing" coordinates of the Byrd ice core in a polar stereographic projection using a true scale at 71 degrees S:</p><pre class="codeinput">[x,y] = ll2ps(-80.02,-119.52)
+</pre><pre class="codeoutput">x =
+  -9.4588e+05
+y =
+  -5.3559e+05
+</pre><p>The Bedmap2 DEM is in polar sterographic coordinates (re 71 S), so just as we entered geographic degrees above, we can enter the map x/y values:</p><pre class="codeinput">geotiffinterp(<span class="string">'bedmap2_thickness.tif'</span>,x,y,<span class="string">'cubic'</span>)
+</pre><pre class="codeoutput">ans =
+   2.1464e+03
+</pre><h2>Regridding a data set<a name="10"></a></h2><p>In addition to interpolating values at a single point, <tt>geotiffinterp</tt> can also interpolate to a line, transect, or grid of points. Consider Mount Vinson, which is located at (78.53 S, 85.62 W).  Suppose you want to regrid or supersample the Bedmap2 data set from 1 km resolution to 500 m resolution, and create a map of the area surrounding Mount Vinson. To do this, we can make a grid of points at 500 m spacing, 300 km wide, centered on Mount Vinson:</p><p>For this map, it makes sense to talk in meters instead of lat/lons, so we'll transform to polar stereographic coordinates via the <tt>ll2ps</tt> function found in the <a href="http://www.mathworks.com/matlabcentral/fileexchange/47638">Antarctic Mapping Tools</a> package.</p><pre class="codeinput">[centerx,centery] = ll2ps(-78.53,-85.62)
+</pre><pre class="codeoutput">centerx =
+  -1.2466e+06
+centery =
+   9.5483e+04
+</pre><p>And we can create a 500 m resolution grid for about a 150 km radius surrounding Mount Vinson:</p><pre class="codeinput">halfwidth = 150000;
+resolution = 500;
+x = centerx-halfwidth:resolution:centerx+halfwidth;
+y = (centery+halfwidth:-resolution:centery-halfwidth)';
+</pre><p>Note that above, the <tt>y</tt> variable was transposed into a column vector. If <tt>x</tt> and <tt>y</tt> are both column vectors or both row vectors, <tt>geotiffinterp</tt> will interpolate only at <tt>x(1),y(1)</tt>, <tt>x(2),y(2)</tt>,..., <tt>x(N),y(N)</tt>, etc., whereas elevations if <tt>x</tt> and <tt>y</tt> are a row and column vector, respectively, elevations are returned at every combination of <tt>x</tt> and <tt>y</tt> values. In turn,</p><pre class="codeinput">bed = geotiffinterp(<span class="string">'bedmap2_bed.tif'</span>,x,y,<span class="string">'cubic'</span>);
+sfz = geotiffinterp(<span class="string">'bedmap2_surface.tif'</span>,x,y,<span class="string">'cubic'</span>);
+</pre><p>returns the same gridded dataset as</p><pre class="codeinput">[xgrid,ygrid] = meshgrid(x,y);
+bed = geotiffinterp(<span class="string">'bedmap2_bed.tif'</span>,xgrid,ygrid,<span class="string">'cubic'</span>);
+sfz = geotiffinterp(<span class="string">'bedmap2_surface.tif'</span>,xgrid,ygrid,<span class="string">'cubic'</span>);
+</pre><p>Now we have elevation data, and all we have to do is plot them. Below I'm using the <a href="http://www.mathworks.com/matlabcentral/fileexchange/46872-intuitive-rgb-color-values-from-xkcd/content/demo/html/rgb_demo.html"><tt>rgb</tt></a> function to get the RGB values of <i>ice blue</i>, which turn out to be <tt>[.8431 1 .9961]</tt>.</p><pre class="codeinput">figure(<span class="string">'pos'</span>,[100 100 800 550])
+surface(x,y,bed); <span class="comment">% draws bed</span>
+demcmap(bed,256)  <span class="comment">% sets colormap</span>
+view([-123 26])   <span class="comment">% sets viewing angle</span>
+hold <span class="string">on</span>           <span class="comment">% allows overlaying data</span>
+
+<span class="comment">% Draw ice surface:</span>
+hsfz = surface(xgrid,ygrid,sfz);
+
+<span class="comment">% Draw sides of bedrock:</span>
+minbed = min(bed(:))*ones(601,1);
+hrock(1) = surface([xgrid(:,1) xgrid(:,1)],[ygrid(:,1) ygrid(:,1)],[bed(:,1) minbed]);
+hrock(2) = surface([xgrid(1,:);xgrid(1,:)],[ygrid(1,:);ygrid(1,:)],[bed(1,:);minbed']);
+hrock(3) = surface([xgrid(:,end) xgrid(:,end)],[ygrid(:,end) ygrid(:,end)],[bed(:,end) minbed]);
+hrock(4) = surface([xgrid(end,:);xgrid(end,:)],[ygrid(end,:);ygrid(end,:)],[bed(end,:);minbed']);
+
+<span class="comment">% Draw sides of ice:</span>
+hsfz(2) = surface([xgrid(:,1) xgrid(:,1)],[ygrid(:,1) ygrid(:,1)],[bed(:,1) sfz(:,1)]);
+hsfz(3) = surface([xgrid(1,:);xgrid(1,:)],[ygrid(1,:);ygrid(1,:)],[bed(1,:);sfz(1,:)]);
+hsfz(4) = surface([xgrid(:,end) xgrid(:,end)],[ygrid(:,end) ygrid(:,end)],[bed(:,end) sfz(:,end)]);
+hsfz(5) = surface([xgrid(end,:);xgrid(end,:)],[ygrid(end,:);ygrid(end,:)],[bed(end,:);sfz(end,:)]);
+
+<span class="comment">% Tinker with formatting:</span>
+lighting <span class="string">phong</span>
+camlight
+shading <span class="string">interp</span> <span class="comment">% eliminates lines from surface grids</span>
+xlabel(<span class="string">'eastings (m)'</span>)
+ylabel(<span class="string">'northings (m)'</span>)
+zlabel(<span class="string">'elevation (m)'</span>)
+axis <span class="string">tight</span>
+set(hrock,<span class="string">'facecolor'</span>,rgb(<span class="string">'dark gray'</span>))
+set(hsfz,<span class="string">'facecolor'</span>,rgb(<span class="string">'ice blue'</span>),<span class="string">'facealpha'</span>,.6)
+</pre><img vspace="5" hspace="5" src="geotiffinterp_documentation_02.png" alt=""> <h2>Author Info<a name="15"></a></h2><p>This function was written by <a href="http://chadagreene.com/">Chad A. Greene</a> of the University of Texas Institute for Geophysics (<a href="http://www.ig.utexas.edu/people/students/cgreene/">UTIG</a>) in September of 2014.  This function was inspired by and borrows some code from <a href="http://www.glaciology.net/">Aslak Grinsted's</a> <a href="http://www.mathworks.com/matlabcentral/fileexchange/46904"><tt>geotiffreadregion</tt></a> function.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2012b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% |geotiffinterp|
+% This function interpolates values of a georeferenced tiff file, given lat/lon coordinates or map x/y 
+% locations corresponding to the map projection associated with the tiff file. This function is _fast_ 
+% because even if the GeoTIFF file is quite large, only a region of the image large enough to perform
+% interpolation is loaded.  This function was designed to easily probe GeoTIFF datasets such as digital
+% elevation maps (DEMs) or other geospatial data arrays. It _can_ be used to interpolate values from a 
+% georeferenced satellite image, but if you're working with images, other functions such as 
+% <http://www.mathworks.com/matlabcentral/fileexchange/46904 |geotiffreadregion|> may be more useful.  
+% 
+% 
+%% Syntax
+%
+%  Ai = geotiffinterp(filename,lati,loni) 
+%  Ai = geotiffinterp(filename,xi,yi)
+%  Ai = geotiffinterp(...,InterpolationMethod)
+%  Ai = geotiffinterp(...,'nanval',NanValue)
+%  Ai = geotiffinterp(...,'frame',FrameNumber)
+%  Ai = geotiffinterp(...,'show')
+%
+% 
+%% Description
+%
+% |Ai = geotiffinterp(filename,lati,loni)| returns interpolated values of a tiff image at georeferenced 
+% locations given by |lati| and |loni|. 
+%
+% |Ai = geotiffinterp(filename,xi,yi)| returns interpolated values a tiff image where |xi| and |yi| are
+% units of distance (usually feet or meters) in projected map coordinates described by the projection
+% metadata in the tiff file.  The way |xi| and |yi| are interpreted: if no value in |xi| has an absolute
+% value exceeding 90 _and_ no value in |yi| has an absolute value exceeding 360, then geographic coordinates
+% of degrees are assumed.  Otherwise, the first two inputs after |filename| are assumed to be map x/y 
+% coordinates. 
+%
+% |Ai = geotiffinterp(...,InterpolationMethod)| specifies an interpolation method as |'nearest'|, |'linear'|,
+% |'spline'|, or |'cubic'|.  Default interpolation method is linear. 
+%
+% |Ai = geotiffinterp(...,'nanval',NanValue)| sets a specified value in the tiff to |NaN| before interpolation. 
+% In GeoTIFF format, undefined values are often set to 32767 because the tiff format only stores integers. By default, 
+% |geotiffinterp| sets replaces all values of 32767 to |NaN| before interpolation. To prevent |geotiffinterp| from 
+% doing this, declare |'nanval',NaN|. To replace some other value, say 9999, to |NaN| before interpolation, use 
+% |'nanval',9999|.   
+%
+% |Ai = geotiffinterp(...,'frame',FrameNumber)| specifies a frame number to interpolate, if the GeoTIFF contains
+% multiple frames. Currently, |FrameNumber| can only have a single scalar value, so you'll have to loop |geotiffinterp|
+% to probe multiple frames.  If the tiff file contains multiple frames and you do not specify which one you're interested
+% in, |geotiffinterp| will only interpolate the first frame.  As this applies to georeferenced image tiffs with three slices
+% corresponding to red, green, and blue, if you want all three colors you will have to run |geotiffinterp| once
+% for each color. 
+%
+% |Ai = geotiffinterp(...,'show')| plots the subsection of the tiff that is loaded by |geotiffinterp| in grayscale
+% and overlays markers showing interpolation locations.   
+% 
+%
+%% A data set for some examples
+% Matlab does not come with any built-in DEM example files in GeoTIFF format, so the following
+% example will use elevation data from the <https://secure.antarctica.ac.uk/data/bedmap2/bedmap2_tiff.zip 
+% Bedmap2 Antarctic elevation dataset>. To follow along with this example,
+% you can unzip the linked file into your current folder.  For other
+% geospatial data sets in GeoTIFF format, try looking <http://catalog.data.gov/dataset?metadata_type=geospatial&res_format=TIFF&_res_format_limit=0 
+% here>. 
+% 
+%% Ice thickness at a single point
+% The first ice core to successfully penetrate the Antarctic ice sheet was at Byrd camp in 1968. The ice core
+% was 2164 meters long and was drilled at (80.02S, 119.52W).  How closely does the Bedmap2 DEM match this thickness? 
+
+geotiffinterp('bedmap2_thickness.tif',-80.02,-119.52)
+
+%% 
+% That's by the default linear interpolation.  For an elevation data set, cubic
+% interpolation usually makes more sense:
+
+geotiffinterp('bedmap2_thickness.tif',-80.02,-119.52,'cubic')
+
+%% 
+% That's still not exact, but we can't expect to extract the exact value from a one-kilometer
+% gridded data set.  For a sense of context, show the data point on a map: 
+
+geotiffinterp('bedmap2_thickness.tif',-80.02,-119.52,'cubic','show');
+
+%% 
+% Notice that |geotiffinterp| loads ten extra pixels on each side of the
+% data of interest.  This to support fancy interpolation methods. 
+
+%% 
+% Using a coordinate conversion tool from the <http://www.mathworks.com/matlabcentral/fileexchange/47638 Antarctic
+% Mapping Tools> package, we can get the "easting" and "northing" coordinates of the Byrd ice core in a polar 
+% stereographic projection using a true scale at 71 degrees S: 
+
+[x,y] = ll2ps(-80.02,-119.52)
+
+%% 
+% The Bedmap2 DEM is in polar sterographic coordinates (re 71 S), so just
+% as we entered geographic degrees above, we can enter the map x/y values: 
+
+geotiffinterp('bedmap2_thickness.tif',x,y,'cubic')
+
+%% Regridding a data set
+% In addition to interpolating values at a single point, |geotiffinterp| can also 
+% interpolate to a line, transect, or grid of points. Consider Mount
+% Vinson, which is located at (78.53 S, 85.62 W).  Suppose you want to regrid
+% or supersample the Bedmap2 data set from 1 km resolution to 500 m
+% resolution, and create a map of the area surrounding Mount Vinson. To do
+% this, we can make a grid of points at 500 m spacing, 300 km wide,
+% centered on Mount Vinson: 
+%
+% For this map, it makes sense to talk in meters instead of lat/lons, so we'll transform
+% to polar stereographic coordinates via the |ll2ps| function found in the 
+% <http://www.mathworks.com/matlabcentral/fileexchange/47638 Antarctic
+% Mapping Tools> package. 
+
+[centerx,centery] = ll2ps(-78.53,-85.62)
+
+%% 
+% And we can create a 500 m resolution grid for about a 150 km radius
+% surrounding Mount Vinson: 
+
+halfwidth = 150000; 
+resolution = 500; 
+x = centerx-halfwidth:resolution:centerx+halfwidth; 
+y = (centery+halfwidth:-resolution:centery-halfwidth)'; 
+
+%% 
+% Note that above, the |y| variable was transposed into a column vector. If |x| and |y| are both 
+% column vectors or both row vectors, |geotiffinterp| will interpolate only
+% at |x(1),y(1)|, |x(2),y(2)|,..., |x(N),y(N)|, etc., whereas elevations if
+% |x| and |y| are a row and column vector, respectively, elevations are
+% returned at every combination of |x| and |y| values. In turn, 
+
+bed = geotiffinterp('bedmap2_bed.tif',x,y,'cubic'); 
+sfz = geotiffinterp('bedmap2_surface.tif',x,y,'cubic');
+
+%% 
+% returns the same gridded dataset as
+
+[xgrid,ygrid] = meshgrid(x,y);
+bed = geotiffinterp('bedmap2_bed.tif',xgrid,ygrid,'cubic'); 
+sfz = geotiffinterp('bedmap2_surface.tif',xgrid,ygrid,'cubic');
+
+%% 
+% Now we have elevation data, and all we have to do is plot them. Below I'm
+% using the
+% <http://www.mathworks.com/matlabcentral/fileexchange/46872-intuitive-rgb-color-values-from-xkcd/content/demo/html/rgb_demo.html
+% |rgb|> function to get the RGB values of _ice blue_, which turn out to
+% be |[.8431 1 .9961]|.  
+
+figure('pos',[100 100 800 550])
+surface(x,y,bed); % draws bed
+demcmap(bed,256)  % sets colormap
+view([-123 26])   % sets viewing angle
+hold on           % allows overlaying data
+
+% Draw ice surface: 
+hsfz = surface(xgrid,ygrid,sfz);
+
+% Draw sides of bedrock: 
+minbed = min(bed(:))*ones(601,1);
+hrock(1) = surface([xgrid(:,1) xgrid(:,1)],[ygrid(:,1) ygrid(:,1)],[bed(:,1) minbed]);
+hrock(2) = surface([xgrid(1,:);xgrid(1,:)],[ygrid(1,:);ygrid(1,:)],[bed(1,:);minbed']);
+hrock(3) = surface([xgrid(:,end) xgrid(:,end)],[ygrid(:,end) ygrid(:,end)],[bed(:,end) minbed]);
+hrock(4) = surface([xgrid(end,:);xgrid(end,:)],[ygrid(end,:);ygrid(end,:)],[bed(end,:);minbed']);
+
+% Draw sides of ice: 
+hsfz(2) = surface([xgrid(:,1) xgrid(:,1)],[ygrid(:,1) ygrid(:,1)],[bed(:,1) sfz(:,1)]);
+hsfz(3) = surface([xgrid(1,:);xgrid(1,:)],[ygrid(1,:);ygrid(1,:)],[bed(1,:);sfz(1,:)]);
+hsfz(4) = surface([xgrid(:,end) xgrid(:,end)],[ygrid(:,end) ygrid(:,end)],[bed(:,end) sfz(:,end)]);
+hsfz(5) = surface([xgrid(end,:);xgrid(end,:)],[ygrid(end,:);ygrid(end,:)],[bed(end,:);sfz(end,:)]);
+
+% Tinker with formatting: 
+lighting phong
+camlight
+shading interp % eliminates lines from surface grids 
+xlabel('eastings (m)')
+ylabel('northings (m)')
+zlabel('elevation (m)')
+axis tight
+set(hrock,'facecolor',rgb('dark gray'))
+set(hsfz,'facecolor',rgb('ice blue'),'facealpha',.6)
+
+%% Author Info
+% This function was written by <http://chadagreene.com/ Chad A. Greene> of the University of Texas
+% Institute for Geophysics (<http://www.ig.utexas.edu/people/students/cgreene/ UTIG>) in September of
+% 2014.  This function was inspired by and borrows some code from <http://www.glaciology.net/ Aslak Grinsted's>
+% <http://www.mathworks.com/matlabcentral/fileexchange/46904 |geotiffreadregion|> function.
+
+##### SOURCE END #####
+--></body></html>
