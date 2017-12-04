@@ -1,0 +1,188 @@
+Site ID,Site Type,Picture IDs,Lat,Long,street,house number,Date/Time Collected,Person(s) collecting,Regional slope direction [Az],Regional slope magnitude [degrees from horizontal],Lithology (if exposed),"Damaged Structure [1=sidewalk, 2=road, 3=fence, 4=house-wall, 5=other, 6=Pole,7=Stair]",Damage Metrics Length [m],Damage Metrics Area [m^2],Damage Metrics Width [m],Damage Metrics Displacement [m],Damage Metrics Orientation [Az],Damage Metrics Tilt [degree from vertical],Damage Metrics Humockiness (Orientation [Az]),Damage Metrics Humockiness (wavelength [m]),Damage Metrics Humockiness (Amplitude [m]),Damage Metrics Misc,"magnitude of damage – categorical [1-low, 5 hig]","evidence of repair [1-yes, 2-no]","Material Type [1=concrete, 2=brick, 3=asphalt, 4=stone, 5=wood, 6=meta]",Absolute age [year bc],"categoric age 1=young, 2=mid, 3=old",Distance to influential Objects Tree,Distance to influential Objects Fire Hydrant,Distance to influential Objects Drain,Distance to influential Objects street corner,Distance to influential Objects Driveway,Distance to influential Objects other,Notes/comments
+DDL1,DD_L,656,40.46873611,-80.01918889,,,11/19/17 10:38,AJS,170,13,,6,,,,,170,10,,,,,1,2,5,,2,,,,,0.5,,
+DDL2,DD_L,658,40.46885278,-80.01889722,,,11/19/17 10:44,AJS,1,5.3,,1,,,,0.0508,1,,,,,,1,2,1,,2,,,,,,,
+DDL3,DD_L,659,40.46894167,-80.01870000,,,11/19/17 10:49,AJS,80,6.4,,1,13.3,15.96,1.2,0.0635,80,,,,,,4,2,1,,2,,,,,1,,
+DDL4,DD_L,660,40.46893056,-80.01849444,,,11/19/17 10:52,AJS,80,5,,6,,,,,80,9.5,,,,,1,2,6,,2,,,,,,,
+DDL5,DD_L,662,40.46893056,-80.01831944,,,11/19/17 10:55,AJS,80,5.7,,4,,,,,80,2.9,,,,,2,2,1,2000,1,,,,,1,,It used to be a boulder wall
+DDL6,DD_L,665,40.46910833,-80.01825833,,,11/19/17 10:59,AJS,80,3.5,,1,21,,,0.0889,80,,,,,,2,2,1,,2,,,,,,,
+DDL7,DD_L,666,40.46918889,-80.01825000,,,11/19/17 11:04,AJS,80,3.5,,7,,,,,80,,,,,cracks,2,1,1,,1,,,,,1,,
+DDL8,DD_L,667,40.46920278,-80.01775278,,,11/19/17 11:08,AJS,80,4.8,,4,,,,,80,9.4,,,,,1,1,1,,2,,,,,1,,
+DDL9,DD_L,669,40.46936111,-80.01744167,,,11/19/17 11:10,AJS,80,4.8,,1,10.45,12.54,1.2,0.0381,80,,,,,,4,2,1,,2,,,,,1,,cars park here
+DDL10,DD_L,671,40.46933056,-80.01731944,,,11/19/17 11:12,AJS,163,5.2,,6,,,,,163,11.7,,,,,3,2,6,,2,,,,0,,,Towards slope
+DDL11,DD_L,672,40.46921667,-80.01703611,,,11/19/17 11:14,AJS,163,7.4,some soil,6,,,,,163,5,,,,,1,2,5,,2,,,,,,,Big Pole
+DDL12,DD_L,673,40.46867778,-80.01721944,,,11/19/17 11:17,AJS,80,8,,4,,,,,80,4,,,,,1,2,1,,2,,,,,1,,
+DDL13,DD_L,674,40.46834167,-80.01839444,,,11/19/17 11:22,AJS,80,1.7,,4,,,,,80,3.4,,,,,1,2,1,,1,,,,,1,,Probably soil driven
+DDL14,DD_L,"675, 676",40.46823611,-80.01866111,,,11/19/17 11:24,AJS,80,1.3,,3,,,,,80,6,,,,,1,2,6,,1,,,,,1,,
+DDL15,DD_L,"677, 678",40.46822222,-80.01874444,,,11/19/17 11:27,AJS,80,1.3,,7,,,,,80,,,,,cracks,3,2,1,,2,,,,,,,Aligned with previous
+DDL16,DD_L,682,40.46810833,-80.01915833,,,11/19/17 11:30,AJS,260,3.6,,4,,,,,260,7.7,,,,,1,2,5,,2,,,,0,,,
+DDL17,DD_L,683,40.46805556,-80.01943333,,,11/19/17 11:30,AJS,163,3.8,,4,,,,,163,34.5,,,,,4,2,1,,2,,,,,,,
+DDL18,DD_L,684,40.46826667,-80.01911944,,,11/19/17 11:33,AJS,163,6.9,,4,,,,,163,6,,,,cracks,1,2,1,,2,,,,,1,,
+DDL19,DD_L,685,40.46835833,-80.01924167,,,11/19/17 11:34,AJS,163,8.2,,4,,,,,163,20,,,,,3,2,1,,2,,,,,,,
+DDL20,DD_L,686,40.46863056,-80.01919444,,,11/19/17 11:37,AJS,163,7.4,,4,,,,,163,3.9,,,,,1,2,1,,2,,,,,,,
+DDL21,DD_L,"687, 688, 689",40.46889444,-80.01934167,,,11/19/17 11:40,AJS,141,11.5,,4,3,3.75,1.25,0.05842,141,19.5,,,,,4,2,1,,2,,,,,,,Wall ~ 20 m. 4 cracks.
+DDL22,DD_L,693,40.46959167,-80.01853056,,,11/19/17 11:48,AJS,225,7.2,,4,,,,,225,10.3,,,,,1,2,1,,2,,,,,,,
+DDL23,DD_L,694,40.46969167,-80.01857778,,,11/19/17 11:50,AJS,225,7.2,,1,,,,0.0635,225,,,,,,1,2,1,,2,,,,,,,
+DDL24,DD_L,696,40.46964167,-80.01831944,,,11/19/17 11:51,AJS,225,7.6,,4,,,,,225,6.3,,,,,1,2,1,,2,,,,,1,,
+DDL25,DD_L,698,40.47016389,-80.01801389,,,11/19/17 11:54,AJS,225,4.1,,1,1.5,,,,225,,,,,cracks,1,2,1,,2,,,,,,,
+DDL26,DD_L,699,40.47018333,-80.01791389,,,11/19/17 11:55,AJS,225,4,,1,,,,,225,6.3,,,,,1,2,1,,2,,,,,,,
+DDH1,DD_H,700,40.47028056,-80.01254167,,,11/19/17 12:14,AJS,269,6.2,,1,12.1,24.2,2,0.0508,269,,,,,cracks,4,2,1,,2,,,,,,,
+DDH2,DD_H,702,40.47058056,-80.01251111,,,11/19/17 12:18,AJS,169,2.1,,1,6.8,8.84,1.3,,169,,,,,cracks,3,2,1,,2,,,,,,,
+DDH3,DD_H,"703, 704",40.47153611,-80.01324444,,,11/19/17 12:23,AJS,169,8.9,,4,,,,,169,15.5,,,,,3,2,2,<2000,2,,,,,,,
+DDH4,DD_H,705,40.47152778,-80.01318333,,,11/19/17 12:25,AJS,169,8.9,,1,,,,0.0762,169,,,,,,2,2,1,,2,,,,,,0,"on sewer, huge deep crack, slate"
+DDH5,DD_H,706,40.47154167,-80.01320556,,,11/19/17 12:28,AJS,87,6.7,,1,3.5,4.9,1.4,,87,,,,,,5,2,4,,2,,,,,,,
+DDH6,DD_H,707,40.47179167,-80.01332222,,,11/19/17 12:29,AJS,172,5.5,,7,,,,,172,2.8,,,,,2,2,1,,2,,,,,,,
+DDH7,DD_H,708,40.47229444,-80.01332222,,,11/19/17 12:34,AJS,,,,4,,,,,0,,,,,"cracks, topple",2,2,1,,2,,,,,,,
+DDH8,DD_H,709,40.47253333,-80.01367222,,,11/19/17 12:36,AJS,,,,6,,,,,0,3,,,,,1,2,5,,2,,,,,,,
+DDH9,DD_H,710,40.47255278,-80.01345000,,,11/19/17 12:37,AJS,100,27.5,,4,,,,,100,40.6,,,,,4,2,5,,2,,,,,,,
+DDH10,DD_H,"712, 713",40.47272222,-80.01353333,,,11/19/17 12:39,AJS,190,2.8,,7,,,,,190,1.1,,,,,1,2,1,,2,,,,,,,
+DDH11,DD_H,714,40.47263333,-80.01344167,,,11/19/17 12:04,AJS,190,2.8,,7,,,,,10,1.5,,,,,1,2,1,,2,,,,,,,opposite
+DDH12,DD_H,715,40.47307500,-80.01357222,,,11/19/17 12:44,AJS,190,2.8,,7,,,,,190,1.1,,,,,1,2,1,,2,,,,,,,
+DDH13,DD_H,716,40.47331667,-80.01361944,,,11/19/17 12:46,AJS,,,,4,,,,,0,7.3,,,,,1,2,2,,2,,,,,1,,
+DDH14,DD_H,717,40.47249722,-80.01249722,,,11/19/17 12:51,AJS,182,4,,1,6.3,14.49,2.3,,182,,,,,cracks,4,2,1,,2,,,,,,,
+DDH15,DD_H,718,40.47208889,-80.01261944,,,11/19/17 12:55,AJS,80,5.4,,1,8.3,4.565,0.55,,80,,,,,cracks,3,2,4,,2,,,,,,,slate
+DDH16,DD_H,719,40.47203889,-80.01263333,,,11/19/17 12:56,AJS,80,5.4,,3,,,,,80,16,,,,,3,2,6,,2,,,,,,,tilted to regional slope
+DDH17,DD_H,720,40.47182778,-80.01271111,,,11/19/17 12:58,AJS,80,21,,4,,,,,80,24.8,,,,,3,2,1,,2,,,,,,,
+DDH18,DD_H,721,40.47164167,-80.01266389,,,11/19/17 12:59,AJS,80,21,,1,4.25,7.65,1.8,0.0635,80,,,,,,3,2,4,,2,,,,,,,concrete and slate
+DDH19,DD_H,722,40.47145833,-80.01254167,,,11/19/17 13:02,AJS,177,2.7,,4,,,,,177,1.7,,,,,2,2,1,,2,,,,,,,2.5” displacement on top
+DDH20,DD_H,723,40.47051667,-80.01171944,,,11/19/17 13:07,AJS,265,2.9,,4,,,,,265,4.8,,,,,2,2,1,,2,,,,,,,
+DDH21,DD_H,"725, 726",40.47023889,-80.01182500,,,11/19/17 13:08,AJS,265,2.9,,6,,,,,265,7.5,,,,,2,2,6,,2,,,,,,,trash bin locked to it with a metal chain
+DDH22,DD_H,728,40.47104722,-80.01126944,,,11/19/17 13:14,AJS,258,16.6,some soil,4,,,,,258,,,,,collapsed,5,2,1,,2,,,,,,,also with some rooftop parts
+DDH23,DD_H,730,40.47122500,-80.01149722,,,11/19/17 13:18,AJS,355,1.3,,7,,,,,355,3.5,,,,,3,2,1,,2,,,,,,,
+DDH24,DD_H,732,40.47133333,-80.01168889,,,11/19/17 13:02,AJS,270,8.8,,6,,,,,270,2.6,,,,,1,2,5,,2,,,,,,,
+DDH25,DD_H,733,40.47199167,-80.01182500,,,11/19/17 13:23,AJS,180,2.6,,7,,,,,0,4.6,,,,,4,2,1,,2,,,,,,,stairs and porch floor
+DDH26,DD_H,734,40.47225278,-80.01190278,,,11/19/17 13:26,AJS,280,13.9,,4,,,,,,3.1,,,,,2,2,1,,1,,,,,,,90 degrees from regional slope
+DDH27,DD_H,735,40.47208333,-80.01221389,,,11/19/17 13:29,AJS,,,,6,,,,,280,3.6,,,,,1,2,5,,2,,,,,,,
+DAL_1,DA_L,DAL_1,40.28789548,-80.26602806,Beacon,6432,11/13/17 10:52,"MC, RT",109,2,N/A,1,,,,0.03,,,,,,,1,1,1,,2,,,0,,,,Displacement caused by manhole
+DAL_2,DA_L,DAL_2,50.33397891,-79.70814615,Beacon,6516,11/13/17 10:59,"MC, RT",109,2,N/A,1,,,,0.04,,,,,,,1,2,1,,2,,,0,,,,Displacement caused by manhole
+DAL_3,DA_L,DAL_3,40.43462267,-79.91602935,Beacon,6530,11/13/17 11:03,"MC, RT",109,2,N/A,1,1.55,2.3,0.01,,,,,,,,1,2,1,,3,,,,,0,,Cracks associated with a driveway
+DAL_4,DA_L,DAL_4,40.43461825,-79.91555782,Beacon,6530,11/13/17 11:05,"MC, RT",109,2,N/A,1,3.5,1.245,0.01,,,,,,,,1,2,1,,3,,,,,,,"Thin cracks in sidewalk, older material"
+DAL_5,DA_L,DAL_5,40.43454619,-79.91555898,Beacon,6550,11/13/17 11:06,"MC, RT",109,2,N/A,4,,,,,182,13,,,,,3,1,2,,3,,,,,,,"Tilted wall in front of house, cannot get close to it"
+DAL_6,DA_L,DAL_6,40.43454619,-79.91555898,Beacon,6550,11/13/17 11:13,"MC, RT",109,2,N/A,1,0.9,3,0.01,,,,,,,,1,2,1,,3,,,,,,0,Thin cracks near water meter in sidewalk
+DAL_7,DA_L,DAL_7,40.43454619,-79.91555898,Beacon,6550,11/13/17 11:16,"MC, RT",106,0,N/A,1,2.4,3,0.01,,,,,,,,1,1,1,,3,,,,,,,"Crack in older material of sidewalk, slight displacement"
+DAL_8,DA_L,DAL_8,40.43454619,-79.91555898,Beacon,6550,11/13/17 11:18,"MC, RT",106,0,N/A,1,1.5,3,0.1,,,16,,,,,1,2,1,,3,,,,,0,,Thicker crack in sidewalk in driveway
+DAL_9,DA_L,DAL_9,40.43487946,-79.91555362,Beacon,6608,11/13/17 11:20,"MC, RT",106,0,N/A,1,1.5,3,0.65,,,53,,,,,1,2,1,,2,,,,,,,"Long crack in sidewalk, change in material to younger"
+DAL_10,DA_L,DAL_10,40.43945578,-80.65653841,Beacon,6608,11/13/17 11:25,"MC, RT",106,0,N/A,1,2.2,4.4,,,295,4,,,,,2,1,1,,1,,,,,0,,Long crack associated with driveway
+DAL_11,DA_L,DAL_11,40.43537518,-79.91365926,Beacon,6624,11/13/17 11:30,"MC, RT",106,0,N/A,1,1.55,3,,,,,,,,,1,1,1,,2,,,,,0,,"Patch of cracks, looks like it was to repair driveway"
+DAL_12,DA_L,DAL_12,40.43544724,-79.91365810,Beacon,6626,11/13/17 11:32,"MC, RT",106,0,N/A,1,2.4,4.275,,,,,,,,,1,1,1,,2,,,,,,,"Patch of cracks, looks like repair"
+DAL_13,DA_L,DAL_13,40.43534960,-79.91381294,Beacon,6617,11/13/17 11:35,"MC, RT",106,0,N/A,1,,,,0.08,113,2,,,,,1,2,1,,2,0,,,,,,Displacement associated with tree
+DAL_14,DA_L,DAL_14,40.43523217,-79.91377946,Mulhatton,6617,11/13/17 11:39,"MC, RT",,,N/A,1,,,,0.03,191,2,,,,,1,2,1,,1,,,,,,,Two long cracks in sidewalk
+DAL_15,DA_L,DAL_15,40.43476378,-79.91378700,Mulhatton,6565,11/13/17 11:43,"MC, RT",,,N/A,1,,,,1.5,,,,,,,1,2,1,,2,,,,,,,Displacement associated with tree
+DAL_16,DA_L,DAL_16,40.43456849,-79.91409668,Mulhatton,6565,11/13/17 11:46,"MC, RT",111,2,N/A,1,1.5,2.1,,,,,,,,,2,2,"1,6",,2,,,0,,,,Large area of cracks around manhole
+DAL_17,DA_L,DAL_17,40.43466820,-79.91512079,Mulhatton,6535,11/13/17 11:50,"MC, RT",107,3,N/A,1,1.21,2.1,,,,,,,,,2,2,"1,6",,2,,,,,,,Large area of cracks around manhole
+DAL_18,DA_L,DAL_18,40.43466820,-79.91512079,Mulhatton,6535,11/13/17 11:56,"MC, RT",107,3,N/A,2,,100,,,,,,,,,2,1,3,,2,,,0,,,,"Cracks run down the length of the street, parallel"
+DAL_19,DA_L,DAL_19,40.43509415,-79.91635189,Mulhatton,6535,11/13/17 11:57,"MC, RT",107,3,N/A,1,1.6,3,,1.6,,,,,,,1,2,1,,2,,,,,,,"Long crack, nothing around it"
+DAL_20,DA_L,DAL_20,40.43534603,-79.91631248,Mulhatton,1900,11/13/17 11:58,"MC, RT",210,6,N/A,1,,,,0.09,,1,,,,,1,2,1,,2,0,,,,,,Large amount of displacement near tree
+DAH_1,DA_H,DAH_1,40.43049017,-79.92984187,Pocusset,5510,11/15/17 13:56,"MC, RT",89,3,N/A,1,2.07,3.375,,,,,,,,,1,2,1,,2,,,0,,0,,Cracks associated with manhole cover
+DAH_2,DA_H,DAH_2,40.43012626,-79.92945860,Pocusset,5530,11/15/17 13:50,"MC, RT",142,2,N/A,1,1.5,3,,,,,,,,,1,1,1,,2,,,,,0,,"Long crack in driveway, owner said they tried to repair it"
+DAH_3,DA_H,DAH_3,40.42998995,-79.92933108,Pocusset,5534,11/15/17 13:53,"MC, RT",,,N/A,1,1.2,6.96,0.02,,,,,,,,3,2,1,,3,,,,,,,"Patch of cracks in sidewalk, nothing nearby"
+DAH_4,DA_H,DAH_4,40.42978938,-79.92907490,Pocusset,5544,11/15/17 13:56,"MC, RT",133,5,N/A,1,2.5,2.64,,,,,,,,,1,2,1,,2,,,,,,,Small area of cracks and damage
+DAH_5,DA_H,DAH_5,40.42981586,-79.92901554,Pocusset,5550,11/15/17 13:59,"MC, RT",,,N/A,1,1.65,,,,94,3,,,,,1,2,1,,1,,,,,,,"Pavement change, small area of cracks, nothing nearby"
+DAH_6,DA_H,DAH_6,40.42973359,-79.92888716,Pocusset,5550,11/15/17 14:01,"MC, RT",,,N/A,1,,,,0.05,,5,,,,,1,2,1,,2,0,,,,,,Large amount of displacement near tree
+DAH_7,DA_H,DAH_7,40.42965186,-79.92881773,Pocusset,5554,11/15/17 14:02,"MC, RT",,,N/A,1,,,,0.05,135,4,,,,,1,2,1,,2,0,,,,,,Large amount of displacement near tree
+DAH_8,DA_H,DAH_8,40.42950611,-79.92864321,Pocusset,5558,11/15/17 14:04,"MC, RT",130,1,N/A,1,1.3,3,0.05,,,,,,,,1,2,1,,3,,,,,,,Long crack near tree
+DAH_9,DA_H,"DAH_9.1, DAH_9.2",40.42947668,-79.92838431,Pocusset,5558,11/15/17 14:06,"MC, RT",,,N/A,1,,,,,,,,,,,3,2,2,,3,,,,,,,"House wall has been tilted, could not get near it"
+DAH_10,DA_H,DAH_10.1-5,40.42947668,-79.92838431,Pocusset,5590,11/15/17 14:08,"MC, RT",110,1,N/A,1,,80,0.02,,,,,,,,5,1,3,,2,,,,,,,"Very large asphalt area that is covered in cracks, pavement type change"
+DAH_11,DA_H,DAH_11,40.42928310,-79.92888252,Pocusset,5590,11/15/17 14:13,"MC, RT",118,1,N/A,1,2.4,3,0.07,,,,,,,,1,2,1,,2,,,,,,,"Large carea of cracks, some thicker, nothing nearby"
+DAH_12,DA_H,DAH_12,40.42942722,-79.92888024,Pocusset,5575,11/15/17 14:15,"MC, RT",,,N/A,5,,,,,,,,,,,4,1,1,,2,,,,,,,Steps of house are cracked and slightly tilted
+DAH_13,DA_H,DAH_13,40.42942722,-79.92888024,Pocusset,5575,11/15/17 14:16,"MC, RT",,,N/A,1,,,,0.08,,2,,,,,1,2,1,,2,0,,,,,,Large amount of displacement near tree
+DAH_14,DA_H,DAH_14,40.42946472,-79.92806620,Pocusset,5573,11/15/17 14:19,"MC, RT",,,N/A,,2.6,2.4,0.01,0.02,,,,,,,2,2,1,,2,0,,,,,,"Large amount of displacement, and cracks near tree"
+DAH_15,DA_H,DAH_15,40.42948317,-79.92811306,Pocusset,5561,11/15/17 14:21,"MC, RT",123,0,N/A,1,2.8,2.25,0.01,,,,,,,,2,2,1,,2,,,,,,,"Large amount of displacement, and cracks near tree"
+DAH_16,DA_H,DAH_16,40.42957412,-79.92820593,Pocusset,5559,11/15/17 14:24,"MC, RT",,,N/A,4,,,,,,2,,,,,1,1,1,,2,,,,,,,"House wall tilted, was able to get a measurement"
+DAH_17,DA_H,DAH_17,40.42969345,-79.92747312,Pocusset,5549,11/15/17 14:27,"MC, RT",,,N/A,1,4.5,11.1,0.25,0.01,,,,,,,2,2,1,,2,0.75,,,,,,Thick crack withing a meter of a tree
+DAH_18,DA_H,DAH_18,40.42986035,-79.92895589,Pocusset,5541,11/15/17 14:29,"MC, RT",,,N/A,1,1.5,2.25,,,,,,,,,1,1,1,,3,,,,,,,"Long crack, nothing nearby, pavement change"
+DAH_19,DA_H,"DAH_19.1, DAH_19.2",40.43003357,-79.92917713,Pocusset,5537,11/15/17 14:30,"MC, RT",,,N/A,4,,,,,,3,,,,,2,2,4,,2,,,,,,,"Tilted small wall near a house, was able to get measurement"
+DAH_20,DA_H,DAH_20,40.43013374,-79.92929343,Pocusset,5533,11/15/17 14:33,"MC, RT",160,3,N/A,5,2,6,,,,,,,,,2,1,1,,2,,,,,0,,"Driveway full of cracks, was able to get crack measurement at bottom"
+DAH_21,DA_H,DAH_21,40.43013374,-79.92929343,Pocusset,5533,11/15/17 14:35,"MC, RT",160,3,N/A,4,,,,,,15,,,,,4,2,4,,1,,,,,,,"Tilted small wall near a house, was able to get measurement"
+DAH_22,DA_H,DAH_22,40.43032487,-79.92950261,Pocusset,5526,11/15/17 14:38,"MC, RT",,,N/A,1,,0.96,,,,,,,,,2,2,1,,2,,,,,,,"Small area with a lot of cracks, nothing nearby"
+DAH_23,DA_H,DAH_23,40.43071394,-79.92968506,Phillips,5504,11/15/17 14:41,"MC, RT",,,N/A,1,,,,0.03,100,4,,,,,1,2,1,,2,,,,,,,"Displacement of one tile of sidewalk, nothing nearby"
+DAH_24,DA_H,DAH_24,40.43071394,-79.92968506,Phillips,5504,11/15/17 14:43,"MC, RT",109,3,N/A,4,,,,,,3,,,,,3,2,4,,1,,,,,,,"Tilted house wall, was able to get measurement"
+DAH_25,DA_H,DAH_25,40.43077284,-79.92923614,Phillips,5516,11/15/17 14:46,"MC, RT",,,N/A,1,,,,0.04,100,4,,,,,1,2,1,,2,0,,,,,,Displacement of sidewalk near tree
+DAH_26,DA_H,DAH_26,40.43077284,-79.92923614,Phillips,5522,11/15/17 14:47,"MC, RT",,,N/A,4,,,,,,10,,,,,4,2,5,,1,,,,,,,"Tilted house wall, was able to get measurement"
+DAH_27,DA_H,DAH_27,40.43078736,-79.92885866,Phillips,5526,11/15/17 14:48,"MC, RT",,,N/A,4,,,,,,,,,,,5,2,4,,3,,,,,,,"Collapsed house wall, no measurement"
+DAH_28,DA_H,DAH_28,40.43091511,-79.92903347,Phillips,5529,11/15/17 14:51,"MC, RT",,,N/A,1,,,,0.1,92,3,,,,,3,2,1,,2,0,,,,,,Displacement near tree
+DAH_29,DA_H,DAH_29,40.43088972,-79.92921071,Phillips,5517,11/15/17 14:54,"MC, RT",96,4,N/A,1,2.4,1.8,0.02,,,,,,,,1,2,1,,2,,,,,,,"Area of cracks, nothing nearby"
+DAH_30,DA_H,DAH_30,40.43084709,-79.92947075,Phillips,5513,11/15/17 14:55,"MC, RT",,,N/A,4,,,,,,10,,,,,2,2,4,,1,,,,,0.25,,Tilted and partiall collapsed wall at bottom of driveway
+SH1,S_H,5279,40.45661566,-79.95923315,Webster Ave,3504,11/12/17 15:57,Buford Group,60,17,soil,5,0.6,2.75,0.5,0.04,60,8,NA,NA,NA,NA,3,2,1,?,2,NA,NA,NA,NA,NA,not located near influential objects other than topography,tilted cement & cinderblock stairs
+SH2a,S_H,5280,40.45649077,-79.95938431,Webster Ave,3486,11/12/17 16:01,Buford Group,64,0.22,soil,4,2.25,2.85,0.2,0.25,330,10,NA,NA,NA,NA,5,2,1,?,2,NA,NA,NA,NA,NA,not located near influential objects other than topography,damaged cinderblock wall; large chunks missing
+SH2b,S_H,5281,40.45645854,-79.95937931,Webster Ave,3486,11/12/17 16:03,Buford Group,64,0.22,soil,4,1,0.36,3,4,330,3,NA,NA,NA,NA,2,2,1,?,2,NA,NA,NA,NA,NA,not located near influential objects other than topography,cinderblock retaining wall tilting away from normal
+SH3,S_H,5282,40.45642296,-79.95950107,Webster Ave,3484,11/12/17 16:03,Buford Group,64,0.23,soil,4,1,3,0.07,0.07,330,5,NA,NA,NA,NA,2,2,4,?,3,NA,NA,NA,NA,NA,not located near influential objects other than topography,wood retaining wall pulling away
+SH4,S_H,5283,40.45626736,-79.95959523,Webster Ave,3482,11/12/17 16:04,Buford Group,64,0.23,soil,4,2.35,1.7625,0.08,0.04,330,7,NA,NA,NA,NA,4,2,4,?,3,NA,NA,NA,NA,NA,not located near influential objects other than topography,wood retaining wall pulling away
+SH5,S_H,5284,40.45631486,-79.95965134,Webster Ave,3482,11/12/17 16:05,Buford Group,64,0.23,soil,1,0.65,1.25,0.01,0.015,62,NA,NA,NA,NA,NA,2,2,1,?,3,NA,NA,NA,NA,NA,not located near influential objects other than topography,damaged sidewalk
+SH6,S_H,5285,40.45631110,-79.95963813,Webster Ave,3476,11/12/17 16:07,Buford Group,64,0.23,soil,4,4.75,2.1375,0.3,0.2,330,8,NA,NA,NA,NA,2,1,1,?,2,NA,NA,NA,NA,NA,not located near influential objects other than topography,cement retaining wall pulling away
+SH7,S_H,5286,40.45629649,-79.95966995,Webster Ave,3476,11/12/17 16:08,Buford Group,64,0.23,soil,4,4.15,4.1,0.02,0.02,60,1.5,NA,NA,NA,NA,3,1,1,?,3,NA,NA,NA,NA,NA,not located near influential objects other than topography,house stairs pulling apart
+SH8,S_H,5287,40.45609575,-79.96022211,Webster Ave,3476,11/12/17 16:10,Buford Group,64,0.24,soil,4,1.5,0.75,0.35,0.05,330,10,NA,NA,NA,NA,5,2,1,?,2,1,NA,NA,NA,NA,Blocks may have been removed for later repair,"Wall blocks fallen off and removed, large blocks missing, tree roots present"
+SH9a,S_H,5288,40.45588169,-79.96046072,Webster Ave,3456,11/12/17 16:11,Buford Group,64,0.22,soil,1,1.67,4.2,0.05,0.01,325,NA,NA,NA,NA,NA,4,2,1,?,2,NA,NA,NA,NA,NA,Not located near influential objects,Radial cracks
+SH9b,S_H,5289,40.45583081,-79.96053879,Webster Ave,3452,11/12/17 16:14,Buford Group,64,0.22,soil,1,1.7,3.5,0.01,0.03,335,NA,NA,NA,NA,NA,4,2,1,?,2,NA,NA,0.25,NA,NA,"Radiating cracks in the sidewalk, near a drain from a garden",
+SH10,S_H,5290,40.45575972,-79.96068607,Webster Ave,3442,11/12/17 16:15,Buford Group,64,0.22,soil,4,5.5,2.75,0.03,0.03,330,5,NA,NA,NA,NA,3,2,2,?,2,NA,NA,NA,NA,NA,"Some plants in the garden, slope of the garden",
+SH11,S_H,5291,40.45554797,-79.96100403,Webster Ave,3432,11/12/17 16:16,Buford Group,64,0.22,soil,4,2.25,1.15,0.03,0.01,330,10,NA,NA,NA,NA,3,1,1,?,2,NA,NA,NA,NA,NA,"Bound on one side by other garden, other side by stairs",
+SH12,S_H,5292,40.45551034,-79.96102099,Webster Ave,3432,11/12/17 16:16,Buford Group,64,0.22,soil,4,1.2,0.25,0.01,0.03,330,10,NA,NA,NA,NA,4,2,1,?,3,0.6,NA,NA,NA,NA,"Corner near garden stairs, Shrubs nearby",
+SH13,S_H,5293,40.45541107,-79.96115669,Webster Ave,3424,11/12/17 16:18,Buford Group,64,0.22,soil,1,2.4,4,0.2,0.02,None,NA,NA,NA,NA,NA,5,2,1,?,3,NA,NA,NA,NA,NA,"Parts of slab removed near corner, cracks radiating from removed material",
+SL1,S_L,5294,40.43917039,-79.93645773,Northumberland,5335,11/12/17 16:42,Buford Group,142,0.08,soil,1,0.06,0.35,0.02,0.005,190,NA,NA,NA,NA,NA,1,2,2,?,1,NA,NA,NA,NA,1,"Well maintained area, driveway on one side, soil and plant material between bricks",
+SL2,S_L,5295,40.43919967,-79.93630039,Northumberland,5343,11/12/17 16:43,Buford Group,142,0.07,soil,1,0.01,1.26,0.01,0.03,227,NA,,0.65,0.02,NA,1,2,2,?,1,0.5,NA,NA,NA,NA,Near two trees,
+SL3,S_L,5296,40.43921887,-79.93625654,Northumberland,5343,11/12/17 16:43,Buford Group,142,0.06,soil,4,0.03,0.07,0.01,0.02,225,1,NA,NA,NA,NA,1,2,2,?,1,NA,NA,NA,NA,NA,Tree behind Brick Wall,
+SL4,S_L,5297,40.43924750,-79.93623585,Northumberland,5343,11/12/17 16:43,Buford Group,142,0.06,soil,4,0.08,0.42,0.04,0.03,10,1.25,NA,NA,NA,NA,1,2,2,?,1,0.4,NA,NA,NA,NA,Tree behind Brick Wall,
+SL5,S_L,5298,40.43910609,-79.93552152,Northumberland,5363,11/12/17 16:45,Buford Group,142,0.06,soil,1,0.74,0.93,0.23,0.12,100,0.5,NA,NA,NA,NA,2,2,1,?,1,NA,NA,0.01,NA,NA,Cracked near drain,
+SL6,S_L,5299,40.43910832,-79.93527841,Northumberland,5369,11/12/17 16:46,Buford Group,142,0.06,soil,1,0.97,1.27,0.02,0.04,226,0.7,NA,NA,NA,NA,1,2,1,?,1,0.5,NA,0.01,NA,NA,Displaced near tree,
+SL7,S_L,5300,40.43898997,-79.93548043,Northumberland,5369,11/12/17 16:48,Buford Group,142,0.06,soil,1,0.01,2.5,0.06,0.03,190,1.2,NA,NA,NA,NA,1,2,1,?,1,NA,NA,0.03,NA,NA,located near manhole,
+SL8,S_L,5301,40.43901524,-79.93564935,Northumberland,5363,11/12/17 16:49,Buford Group,142,0.06,soil,1,2.46,2.37,0.08,0.021,190,NA,NA,NA,NA,NA,4,2,1,?,2,NA,NA,NA,NA,0.5,located near end of sidewalk,
+SL9,S_L,5302,40.43972811,-79.93793769,Schenley Rd,110,11/12/17 16:55,Buford Group,142,0.06,soil,1,1.23,2.48,0.24,0.03,228,NA,NA,NA,NA,NA,3,2,1,?,2,NA,NA,NA,NA,NA,not located near influential objects,
+LS1,S_L,CFW_LS1,40.44050900,-79.94232200,Frew,CMU Tepper School of Buiness,11/17/17 8:39,CFW,30,2,,2,2,,,,30,,,,,,1,2,3,,1,,,,0,,Street corner,
+LS2,S_L,CFW_LS2,40.44055556,-79.94277778,Frew,CMU Tepper School of Buiness,11/17/17 8:46,CFW,30,2,,2,3,,,,120,,,,,,1,2,3,,1,,,,,,road edge,
+LS3,S_L,CFW_LS3,40.44083333,-79.94277778,Frew,CMU Tepper School of Buiness,11/17/17 8:49,CFW,30,2,,2,3,,0.25,,120,,,,,,2,2,3,,1,,,,,,road edge,
+LS4,S_L,CFW_LS4,40.44083333,-79.94305556,Frew,CMU Tepper School of Buiness,11/17/17 8:51,CFW,270,2,,1,3.7,,,,120,,,,,,1,1,1,,1,,,,,,,
+LS5,S_L,CFW_LS5,40.44083333,-79.94305556,Frew,CMU Tepper School of Buiness,11/17/17 8:54,CFW,30,2,,2,3,,,,,,,,,,1,2,1,,1,,,,,,,
+LS6,S_L,CFW_LS6,40.44083333,-79.94361111,Frew,CMU Hunt Library,11/17/17 9:00,CFW,30,2,,2,1.7,,0.04,,120,,,,,,1,2,3,,1,,,,,,parking lot,
+LS7,S_L,CFW_LS7,40.44083333,-79.94388889,Frew,CMU Hunt Library,11/17/17 9:03,CFW,,2,,2,10,,0.03,,120,,,,,,1,2,3,,1,,,,,,parking lot,
+LS8,S_L,CFW_LS8,40.44083333,-79.94388889,Frew,CMU Hunt Library,11/17/17 9:04,CFW,,2,,2,4.1,,,,,,,,,,1,2,3,,1,,,,0,,road edge,
+LS9,S_L,CFW_LS9,40.44083333,-79.94388889,Frew,CMU Hunt Library,11/17/17 9:05,CFW,,2,,2,5.8,,,,,,,,,,1,2,3,,1,,,,,,road edge,
+LS10,S_L,CFW_LS10,40.44138889,-79.94333333,Frew,CMU Hunt Library,11/17/17 9:08,CFW,,0,,1,1.7,,,,40,,,,,,1,2,1,,1,,,,,,,
+LS11,S_L,CFW_LS11,40.44138889,-79.94305556,Frew,CMU Hunt Library,11/17/17 9:10,CFW,,0,,1,2.5,,,,120,,,,,,1,2,1,,1,,,0,,,by drain,
+LS12,S_L,CFW_LS12,40.44138889,-79.94305556,Frew,CMU School of Music,11/17/17 9:13,CFW,,0,,4,1.9,,,,,0,,,,,1,2,1,,1,,,,,,,
+LS13,S_L,CFW_LS13,40.44138889,-79.94305556,Frew,CMU School of Music,11/17/17 9:14,CFW,,0,,4,1.9,,,,,0,,,,,1,2,1,,1,,,,,,,
+LS14,S_L,CFW_LS14,40.44138889,-79.94305556,Frew,CMU School of Music,11/17/17 9:15,CFW,,0,,4,1.2,,,,,0,,,,,1,2,1,,1,,,,,,,
+LS15,S_L,CFW_LS15,40.44138889,-79.94305556,Frew,CMU School of Music,11/17/17 9:16,CFW,,0,,4,2,,,,,0,,,,,1,2,1,,1,,,,,,,
+LS16,S_L,CFW_LS16,40.44111111,-79.94277778,Frew,CMU School of Music,11/17/17 9:17,CFW,,0,,1,,10,,,,,,,,,1,1,1,,1,,,,,,by 3 drains,
+LS17,S_L,CFW_LS17,40.44194444,-79.94277778,Margaret Morrison,CMU School of Music,11/17/17 9:22,CFW,,0,,2,,100,,,,,,,,,1,1,3,,2,,,0,,,web of cracks in parking lot,
+LS18,S_L,CFW_LS18,40.44194444,-79.94277778,Margaret Morrison,CMU School of Music,11/17/17 9:25,CFW,,2,,1,1.2,,,0.1,,,,,,,2,2,1,,2,,,0.5,,,,
+LS19,S_L,CFW_LS19,40.44194444,-79.94277778,Margaret Morrison,CMU School of Music,11/17/17 9:27,CFW,,2,,2,2.5,,,,10,,,,,,1,2,3,,2,,,0.5,,,,
+LS20,S_L,CFW_LS20,40.44166667,-79.94166667,Tech,Margaret Morrison Carnegie Hall,11/17/17 9:29,CFW,290,6,,2,6.1,,,,,,,,,,1,2,3,,2,,0,,,,,
+LS21,S_L,CFW_LS21,40.44138889,-79.94055556,Margaret Morrison,Margaret Morrison Carnegie Hall,11/17/17 9:31,CFW,,0,,1,2.3,,,,,,,,,,1,2,1,,2,,,,,,electrical box,
+LS22,S_L,CFW_LS22,40.44138889,-79.94055556,Margaret Morrison,Hill Residences,11/17/17 9:33,CFW,,0,,1,2.3,,,,,,,,,,1,2,1,,2,,,,,,,
+LS23,S_L,CFW_LS23,40.44166667,-79.93944444,Margaret Morrison,Hill Residences,11/17/17 9:36,CFW,,20,,4,,1,,,,8,,,,,1,2,6,,2,,,,,,,
+LS24,S_L,CFW_LS24,40.44166667,-79.93944444,Margaret Morrison,Hill Residences,11/17/17 9:39,CFW,,30,,4,7.2,,,,,10,,,,,2,2,4,,2,,,,,,,
+LS25,S_L,CFW_LS25,40.44166667,-79.93944444,Margaret Morrison,Margaret Morrison Carnegie Hall,11/17/17 9:42,CFW,,28,,4,14,,,,,4,,,,,1,2,4,,2,,,,,,,
+LS26,S_L,CFW_LS26,40.44222222,-79.93861111,Margaret Morrison,by india on wheels 2.0,11/17/17 9:45,CFW,,0,,1,2,,,,60,,,,,,1,2,1,,2,,,,,,,
+LS27,S_L,CFW_LS27,40.44194444,-79.93888889,Margaret Morrison,by soccer field,11/17/17 9:48,CFW,,5,,1,2.35,,,,20,,,,,,1,2,1,,1,,,,,,,
+LS28,S_L,CFW_LS28,40.44138889,-79.94055556,Margaret Morrison,Margaret Morrison Carnegie Hall,11/17/17 9:52,CFW,,0,,1,4.1,,,,60,,,,,,1,2,1,,1,,0,,,,,
+LS29,S_L,CFW_LS29,40.44138889,-79.94055556,Margaret Morrison,Margaret Morrison Carnegie Hall,11/17/17 9:54,CFW,,0,,1,1.55,,,,,,,,,,1,2,1,,1,,,0,,,electrical box,
+LS30,S_L,CFW_LS30,40.44138889,-79.94166667,Tech,Skibo Gymnaisum,11/17/17 9:56,CFW,,18,,1,1.3,,,,,,,,,,1,2,1,,1,,,,,,,
+HS1,S_H,CFW_HS1,40.42777778,-79.91472222,Mt Royal and Forward,,11/17/17 10:57,CFW,40,10,,1,1.4,,,0.04,90,,,,,,1,2,1,,1,,,,,,,
+HS2,S_H,CFW_HS2,40.42777778,-79.91444444,Westland,145,11/17/17 11:02,CFW,220,8,,2,3,,,,,,,,,,1,2,1,,1,,,,0,,,
+HS3,S_H,CFW_HS3,40.42722222,-79.91444444,Westland,,11/17/17 11:06,CFW,,8,,2,10.9,,0.1,,,,,,,,2,2,3,,2,,,,,,,
+HS4,S_H,CFW_HS4,40.42694444,-79.91527778,Westland,,11/17/17 11:08,CFW,,4,,1,1.54,,,,,,,,,,1,2,1,,2,,,,,,,
+HS5,S_H,CFW_HS5,40.42666667,-79.91527778,Westland,127,11/17/17 11:10,CFW,,4,,2,,22.68,,,,,,,,,2,2,1,,1,,,0.5,,0,,
+HS6,S_H,CFW_HS6,40.42583333,-79.91638889,Westland,,11/17/17 11:15,CFW,,8,,1,1.25,,,0.04,,,,,,,1,2,1,,2,,,,,,,
+HS7,S_H,CFW_HS7,40.42555556,-79.91611111,Anita,,11/17/17 11:18,CFW,,4,,1,2.7,,0.35,,,,,,,,1,2,1,,1,,,,,,,
+HS8,S_H,CFW_HS8,40.42555556,-79.91611111,Anita,114,11/17/17 11:20,CFW,,4,,1,1.2,,,0.05,,,,,,,1,2,1,,1,,,,,,,
+HS9,S_H,CFW_HS9,40.42555556,-79.91583333,Anita,116,11/17/17 11:22,CFW,,8,,4,0.6,,,,,,,,,,1,2,1,,2,,,,,0,,
+HS10,S_H,CFW_HS10,40.42555556,-79.91583333,Anita,116,11/17/17 11:24,CFW,,8,,1,1.5,1.69,,,,,,,,,1,2,1,,2,,,,,,,
+HS11,S_H,CFW_HS11,40.42555556,-79.91555556,Anita,131,11/17/17 11:26,CFW,,10,,1,1.4,,,0.09,,,,,,,1,2,1,,2,0.3,0,,,,,
+HS12,S_H,CFW_HS12,40.42555556,-79.91555556,Anita,131,11/17/17 11:27,CFW,,10,,1,4.2,,,,,,,,,,1,1,1,,2,,,,,0,,
+HS13,S_H,CFW_HS13,40.42500000,-79.91527778,Anita,149,11/17/17 11:28,CFW,,10,,2,3.4,,,,,,,,,,1,2,1,,2,,,,,0,,
+HS14,S_H,CFW_HS14,40.42500000,-79.91527778,Anita,,11/17/17 11:29,CFW,,12,,1,1.5,3.5,,,,,,,,,1,2,1,,1,,,,,,,
+HS15,S_H,CFW_HS15,40.42500000,-79.91527778,Anita,157,11/17/17 11:32,CFW,,12,,1,1.2,,,0.06,0,,,,,,1,2,1,,1,,,,,,electirc pole,
+HS16,S_H,CFW_HS16,40.42500000,-79.91500000,Anita,161,11/17/17 11:35,CFW,,8,,1,2,,,,0,,,,,,1,2,1,,1,,0,,,,,
+HS17,S_H,CFW_HS17,40.42500000,-79.91500000,Anita,161,11/17/17 11:37,CFW,,8,,4,9.1,,,,,12,,,,,1,2,5,,2,,,,,,,
+HS18,S_H,CFW_HS18,40.42500000,-79.91500000,Anita,,11/17/17 11:39,CFW,,8,,4,2.3,34.5,,,,6,,,,,1,2,2,,2,,,,,0,,
+HS19,S_H,CFW_HS19,40.42527778,-79.91305556,Fernwald,2700,11/17/17 11:48,CFW,,0,,2,4.4,,,,90,,,,,,1,2,3,,1,,,,,,,
+HS20,S_H,CFW_HS20,40.42611111,-79.91361111,Fernwald,2720,11/17/17 11:52,CFW,,10,,2,1.6,,,,40,,,,,,1,2,1,,2,,,,,0,,
+HS21,S_H,CFW_HS21,40.42694444,-79.91388889,Fernwald,,11/17/17 11:57,CFW,,8,,6,,,,,,8,,,,,1,2,5,,1,,,,,,,
+HS22,S_H,CFW_HS22,40.42694444,-79.91416667,Mt. Royal and Fernwald,2654,11/17/17 12:00,CFW,,16,,6,,,,,,8,,,,,1,2,5,,1,,,,,,electric pole on street corner,
+HS23,S_H,CFW_HS23,40.42694444,-79.91416667,Mt. Royal and Fernwald,2654,11/17/17 12:04,CFW,,16,,1,12.6,,,0.08,,,,,,,1,2,1,,2,1,,0.5,0.3,,,
+HS24,S_H,CFW_HS24,40.42666667,-79.91388889,Mt. Royal,2707,11/17/17 12:06,CFW,,10,,1,,2.88,,0.05,,,,,,,2,2,1,,1,1,,,,,,
+HS25,S_H,CFW_HS25,40.42694444,-79.91444444,Mt. Royal,2656,11/17/17 12:07,CFW,,14,,2,,3.74,,,,,,,,,1,2,1,,2,,,0.5,,0,,
+HS26,S_H,CFW_HS26,40.42694444,-79.91444444,Mt. Royal,2656,11/17/17 12:09,CFW,,18,,1,4.2,1.44,,,50,,,,,,2,2,1,,2,0,,,,0,,
+HS27,S_H,CFW_HS27,40.42611111,-79.91388889,Mt. Royal,2715,11/17/17 12:13,CFW,,10,,3,,,,,,8,,,,,1,2,6,,2,,,,,,black railing,
+HS28,S_H,CFW_HS28,40.42638889,-79.91416667,Mt. Royal,2717,11/17/17 12:16,CFW,,10,,1,1.5,,,0.06,50,,,,,,2,1,1,,2,,,,,,,
+HS29,S_H,CFW_HS29,40.42638889,-79.91416667,Mt. Royal,2723,11/17/17 12:16,CFW,,0,,1,1.2,,,0.04,90,,,,,,1,2,1,,2,,,,,,,
+HS30,S_H,CFW_HS30,40.42555556,-79.91388889,Mt. Royal,2729,11/17/17 12:20,CFW,,0,,1,3.1,,,0.08,,,,,,,3,2,1,,2,,,,,,displaced concrete plus electric pole,
