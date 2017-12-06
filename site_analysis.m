@@ -46,15 +46,25 @@ housing_age.cellsize = DEM.cellsize;
 %% load damage data
 damage_fn = 'resources/TopoDataAnalysis_all.csv';
 opts = detectImportOptions(damage_fn);
+% fix numeric columns loaded as char
+% [opts.VariableNames; opts.VariableTypes]
+opts.VariableTypes(strcmp(opts.VariableNames, 'DD')) = {'double'};
+opts.VariableTypes(strcmp(opts.VariableNames, 'DD_nearestNeighbor')) = {'double'};
+% read table
 damage = readtable(damage_fn, opts);
 % rename columns
 damage.Properties.VariableNames{'DamagedStructure_1_sidewalk_2_road_3_fence_4_house_wall_5'} = 'DamagedStructure';
-damage.Properties.VariableNames{'magnitudeOfDamage___Categorical_1_low_5Hig_'} = 'DamageMagnitude';
+damage.Properties.VariableNames{'magnitudeOfDamage______Categorical_1_low_5Hig_'} = 'DamageMagnitude';
 damage.Properties.VariableNames{'MaterialType_1_concrete_2_brick_3_asphalt_4_stone_5_wood_'} = 'MaterialType';
+damage.Properties.VariableNames{'RegionalSlopeMagnitude_degreesFromHorizontal_'} = 'LocalSlopeDeg';
 
-%% ignore DA sites for now; they have issues with the coordinates
-DAs = strcmp(damage.SiteType, 'DA_L') + strcmp(damage.SiteType, 'DA_H');
-damage = damage(~DAs, :);
+%% Add variable to distinguish sites of high and low topo metric
+highs = cellfun(@(x) ~isempty(x), strfind(damage.SiteType, '_H'));
+lows = cellfun(@(x) ~isempty(x), strfind(damage.SiteType, '_L'));
+highlow = {};
+highlow(highs, 1) = repmat({'High'}, [sum(highs) 1]);
+highlow(lows, 1) = repmat({'Low'}, [sum(lows) 1]);
+damage.HighLow = highlow;
 
 %% get topographic metric values from maps
 damage.DrainageDensity = geotiffinterp('resources/drainage_density_fixed.tif', damage.Lat, damage.Long);
@@ -62,11 +72,14 @@ damage.DrainageArea = geotiffinterp('resources/drainage_area_mdf.tif', damage.La
 [damage.Slope, x, y] = geotiffinterp('resources/slope_gauss.tif', damage.Lat, damage.Long);
 damage.WetnessIndex = geotiffinterp('resources/wetness_index.tif', damage.Lat, damage.Long);
 
+%% Dummy interp just to fetch the projected coordinates
+[~, damage.x, damage.y] = geotiffinterp('resources/slope_gauss.tif', damage.Lat, damage.Long);
+
 %% PLOT: sample sites over DEM
 imagesc(DEM)
 hold on
 %plot(x, y, 'r*')
-gscatter(x, y, damage.SiteType, 'mgrb', '+', 8, 'off')
+gscatter(damage.x, damage.y, damage.SiteType, 'mgrb', '+', 8, 'off')
 legend('DD High', 'DD Low', 'Slope High', 'Slope Low', ...
         'Location', 'northwestoutside')
 hold off
@@ -85,10 +98,48 @@ tabulate(damage.MaterialType)
 %% Contigency table: Site type vs Damaged infrastructure
 [tbl, chi2, p, labels] = crosstab(damage.SiteType, damage.DamagedStructure)
 
-%% Group stats: Damaged structure and magnitude per site
+%% Group stats: Damaged structure and magnitude per site type
 % grpstats requires the Statistics and Machine Learning Toolbox
 grpstats(damage, 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ... 
     {'DamagedStructure', 'DamageMagnitude'})
+
+%% Group plot: Damaged structure and magnitude per site type
+% not very clear
+gscatter(damage.DamageMagnitude, damage.DamagedStructure, damage.SiteType)
+
+%% Group stats: Magnitude per site type -- only sidewalks
+sidewalks = damage.DamagedStructure == 1;
+grpstats(damage(sidewalks, :), 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ... 
+    {'DamageMagnitude'})
+
+%% Group stats: Magnitude per site type -- only walls
+walls = damage.DamagedStructure == 4;
+grpstats(damage(walls, :), 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ... 
+    {'DamageMagnitude'})
+
+%% Group stats: Magnitude per site type -- only sidewalks and walls
+sidewalls = sidewalks | walls;
+grpstats(damage(sidewalls, :), 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ... 
+    {'DamageMagnitude'})
+
+%% Group stats: Magnitude per damaged structure
+grpstats(damage, 'DamagedStructure', {'min', 'max', 'mean', @mode}, 'DataVars', ... 
+    {'DamageMagnitude'})
+
+%% Group stats: Topographic metrics + 2 non-topo per site type
+grpstats(damage, 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ...
+    {'DA', 'S', 'W_I_', 'DD', 'DD_nearestNeighbor', 'impervious', 'ageHousing'})
+
+%% Group stats: Computed slope vs local slope per site type
+grpstats(damage, 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ...
+    {'S', 'LocalSlopeDeg', 'DamageMagnitude'})
+
+%% Group plot: Computed slope vs local slope per site type
+gscatter(damage.S, damage.LocalSlopeDeg, damage.SiteType)
+
+%% Group stats: Local slope and damage magnitude per lows and highs
+grpstats(damage, 'HighLow', {'min', 'max', 'mean', @mode}, 'DataVars', ...
+    {'LocalSlopeDeg', 'DamageMagnitude'})
 
 %% Regional slope vs damage direction
 rs_dir = damage.RegionalSlopeDirection_Az_;
@@ -104,3 +155,27 @@ tilted = find(abs(rs_dir - dmg_dir) > 20 & tilt > 0);
 t = table(rs_dir(tilted), dmg_dir(tilted), rs_deg(tilted), tilt(tilted), ...
     'RowNames', damage.SiteID(tilted), ...
     'VariableNames', {'RS_dir', 'Tilt_dir', 'RS_deg', 'Tilt_deg'})
+
+%% compare different age measures
+gscatter(damage.ageHousing, damage.AbsoluteAge_yearBc_, damage.SiteType)
+%%
+gscatter(damage.categoricAge1_young_2_mid_3_old, damage.AbsoluteAge_yearBc_, damage.SiteType)
+%%
+gscatter(damage.categoricAge1_young_2_mid_3_old, damage.ageHousing, damage.SiteType)
+%% histogram of each age measure
+subplot(1, 3, 1)
+histogram(damage.categoricAge1_young_2_mid_3_old)
+subplot(1, 3, 2)
+histogram(damage.AbsoluteAge_yearBc_)
+subplot(1, 3, 3)
+histogram(damage.ageHousing)
+
+%% plot matrix
+f = figure('Visible', 'on', 'NumberTitle', 'off', ...
+    'units','normalized','outerposition',[0 0 1 1]);
+topo_metrics = {'DA', 'DD', 'DD_nearestNeighbor', 'S', 'W_I_'};
+damage_metrics = {'DamagedStructure', 'DamageMagnitude'};
+gplotmatrix(table2array(damage(:, topo_metrics)), ...
+    table2array(damage(:, damage_metrics)), damage.SiteType, ...
+    [], 'o', 10, [], '', topo_metrics, damage_metrics)
+saveas(f, 'plotmatrix_topo_vs_damage', 'png');
