@@ -42,13 +42,18 @@ wetness_index_avg = wetness_index;
 canopy_avg = canopy;
 impervious_avg = impervious;
 
+% ***** attempt to 
+CDU.Z=changem(CDU.Z,NaN,0);
+%GRIDobj2geotiff(CDU,'resources/CDU_NaN.tif')
+%CDU_avg = CDU;
+
 n_px = 11;
 h = ones(n_px, n_px) / n_px ^ 2;
 
 grids = {DEM, drainage_area, slope, wetness_index, ...
-    canopy, impervious};
+    canopy, impervious, CDU};
 grids_avg = {'DEM_avg', 'drainage_area_avg', 'slope_avg', 'wetness_index_avg', ...
-    'canopy_avg', 'impervious_avg'};
+    'canopy_avg', 'impervious_avg', 'CDU_avg'};
 
 for i = 1:numel(grids)
     tempval = eval(grids_avg{i});
@@ -76,9 +81,14 @@ n_px = 5; % didn't work well with n_px = 11
 housing_age_avg = housing_age;
 housing_age_avg.Z = fillmissing(housing_age_avg.Z, 'constant', 9999);
 housing_age_avg.Z = ordfilt2(housing_age_avg.Z, 1, ones(n_px, n_px));
-housing_age_avg.Z(housing_age_avg.Z == 9999) = NaN;
-housing_age_avg.Z(housing_age_avg.Z == 0) = NaN;
+%housing_age_avg.Z(housing_age_avg.Z == 9999) = NaN;
+%housing_age_avg.Z(housing_age_avg.Z == 0) = NaN;
 
+%% ***attempt to filter CDU map
+n_px=11;
+CDUfilt2=CDU;
+CDUfilt2.Z = fillmissing(CDUfilt.Z, 'constant', 9999);
+CDUfilt2=ordfilt2(CDUfilt2.Z, 1,ones(n_px, n_px));
 %% DEBUG: plot original housing age vs filtered
 subplot(1, 2, 1)
 imagesc(housing_age), colorbar

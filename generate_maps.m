@@ -12,7 +12,8 @@
 %% RUN: load DEM
 
 DEM = GRIDobj('resources/Clip_30mProject.tif');
-DEM.cellsize=30;
+DEM.cellsize
+%DEM.cellsize=30;
 %%
 hsize=5;
 sigma=0.7;
