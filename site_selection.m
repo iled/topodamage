@@ -21,6 +21,7 @@ housing_age = GRIDobj('resources/agehouses_tmp3.tif');
 canopy  = GRIDobj('resources/canopyclipped.tif');
 impervious = GRIDobj('resources/impervious_final.tif');
 soil = GRIDobj('resources/soils_13.tif');
+cdu = GRIDobj('resources/cdu3final.tif');
 
 % fix impervious map
 impervious.refmat = DEM.refmat;
@@ -81,21 +82,76 @@ n_px = 5; % didn't work well with n_px = 11
 housing_age_avg = housing_age;
 housing_age_avg.Z = fillmissing(housing_age_avg.Z, 'constant', 9999);
 housing_age_avg.Z = ordfilt2(housing_age_avg.Z, 1, ones(n_px, n_px));
-%housing_age_avg.Z(housing_age_avg.Z == 9999) = NaN;
-%housing_age_avg.Z(housing_age_avg.Z == 0) = NaN;
+housing_age_avg.Z(housing_age_avg.Z == 9999) = NaN;
+housing_age_avg.Z(housing_age_avg.Z == 0) = NaN;
 
-%% ***attempt to filter CDU map
-n_px=11;
-CDUfilt2=CDU;
-CDUfilt2.Z = fillmissing(CDUfilt.Z, 'constant', 9999);
-CDUfilt2=ordfilt2(CDUfilt2.Z, 1,ones(n_px, n_px));
-%% DEBUG: plot original housing age vs filtered
-subplot(1, 2, 1)
+%% RUN: specific filter for age of housing: mode filter with edge n_px
+n_px = 5;
+housing_age_mode = housing_age;
+housing_age_mode.Z(housing_age_mode.Z == 0) = NaN;
+housing_age_mode.Z = colfilt(housing_age_mode.Z, [n_px, n_px], 'sliding', @mode);
+housing_age_mode.Z(housing_age_mode.Z == 0) = NaN;
+
+%% DEBUG: plot original housing age vs filtered min vs filtered mode
+subplot(1, 3, 1)
 imagesc(housing_age), colorbar
 title('original housing age (year built)')
-subplot(1, 2, 2)
+subplot(1, 3, 2)
 imagesc(housing_age_avg), colorbar
 title('filtered housing age with min filter')
+subplot(1, 3, 3)
+imagesc(housing_age_mode), colorbar
+title('filtered housing age with mode filter')
+
+%% DEBUG: plot histograms for original housing age vs filtered min vs filtered mode
+subplot(1, 3, 1)
+histogram(housing_age.Z)
+title('original housing age (year built)')
+subplot(1, 3, 2)
+histogram(housing_age_avg.Z)
+title('filtered housing age with min filter')
+subplot(1, 3, 3)
+histogram(housing_age_mode.Z)
+title('filtered housing age with mode filter')
+
+%% RUN: specific filter for CDU: min filter with edge n_px
+n_px = 5; % didn't work well with n_px = 11
+cdu_avg = cdu;
+cdu_avg.Z(cdu_avg.Z == 0) = NaN;
+cdu_avg.Z = fillmissing(cdu_avg.Z, 'constant', 9999);
+cdu_avg.Z = ordfilt2(cdu_avg.Z, 1, ones(n_px, n_px));
+cdu_avg.Z(cdu_avg.Z == 9999) = NaN;
+cdu_avg.Z(cdu_avg.Z == 0) = NaN;
+
+%% RUN: specific filter for CDU: mode filter with edge n_px
+n_px = 5;
+cdu.Z(cdu.Z == 0) = NaN;
+cdu_mode = cdu;
+cdu_mode.Z(cdu_mode.Z == 0) = NaN;
+cdu_mode.Z = colfilt(cdu_mode.Z, [n_px, n_px], 'sliding', @mode);
+cdu_mode.Z(cdu_mode.Z == 0) = NaN;
+
+%% DEBUG: plot original CDU vs filtered min vs filtered mode
+subplot(1, 3, 1)
+imagesc(cdu), colorbar
+title('original cdu')
+subplot(1, 3, 2)
+imagesc(cdu_avg), colorbar
+title('filtered cdu with min filter')
+subplot(1, 3, 3)
+imagesc(cdu_mode), colorbar
+title('filtered cdu with mode filter')
+
+%% DEBUG: plot histograms for CDU vs filtered min vs filtered mode
+subplot(1, 3, 1)
+histogram(cdu.Z, 8)
+title('original cdu')
+subplot(1, 3, 2)
+histogram(cdu_avg.Z, 8)
+title('filtered cdu with min filter')
+subplot(1, 3, 3)
+histogram(cdu_mode.Z, 8)
+title('filtered cdu with mode filter')
 
 %% RUN: specific filter for soil: mode filter with edge n_px
 n_px = 11;
