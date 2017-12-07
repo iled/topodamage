@@ -40,7 +40,12 @@ good = GRIDobj('tmp/drainage_area_mdf.tif');
 cdu_avg.refmat = good.refmat;
 cdu_avg.georef = good.georef;
 GRIDobj2geotiff(cdu_avg, 'resources/cdu_avg.tif');
-
+%%
+CDUnofilter = GRIDobj('resources/cdu3final.tif');
+CDUnofilter.Z(CDUnofilter.Z == 0) = NaN;
+CDUnofilter.refmat = good.refmat;
+CDUnofilter.georef = good.georef;
+GRIDobj2geotiff(CDUnofilter, 'resources/CDUnofilter.tif');
 %% filter CDU: mode
 
 
@@ -77,6 +82,11 @@ DA_interp_CDUminnearest = geotiffinterp('resources/cdu_avg.tif',DA_damage(:,1),D
 S1_interp_CDUminnearest = geotiffinterp('resources/cdu_avg.tif',S1_damage(:,1),S1_damage(:,2), 'nearest');
 S2_interp_CDUminnearest = geotiffinterp('resources/cdu_avg.tif',S2_damage(:,1),S2_damage(:,2), 'nearest');
 
+%% CDU no filter, nearest
+DD_interp_CDUnofilter = geotiffinterp('resources/CDUnofilter.tif',DD_damage(:,1),DD_damage(:,2), 'nearest');
+DA_interp_CDUnofilter = geotiffinterp('resources/CDUnofilter.tif',DA_damage(:,1),DA_damage(:,2), 'nearest');
+S1_interp_CDUnofilter = geotiffinterp('resources/CDUnofilter.tif',S1_damage(:,1),S1_damage(:,2), 'nearest');
+S2_interp_CDUnofilter = geotiffinterp('resources/CDUnofilter.tif',S2_damage(:,1),S2_damage(:,2), 'nearest');
 %% for Drainage Area group's damage measurement locations, get values of
 %metrics from DEM:
 DA_interp_DA = geotiffinterp('resources/drainage_area_mdf_filtered.tif',DA_damage(:,1),DA_damage(:,2));
