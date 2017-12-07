@@ -19,9 +19,21 @@ slope = GRIDobj('resources/slope_gauss.tif');
 wetness_index = GRIDobj('resources/wetness_index.tif');
 % non-topographic metrics
 housing_age = GRIDobj('resources/agehouses_tmp3.tif');
-canopy  = GRIDobj('resources/canopyclipped.tif');
+canopy = GRIDobj('resources/canopyclipped.tif');
 impervious = GRIDobj('resources/impervious_final.tif');
 soil = GRIDobj('resources/soils_13.tif');
+
+%% load non cropped filtered versions
+% topographic metrics
+drainage_area_nocrop = GRIDobj('resources/NoCrop/drainage_area_mdf_filtered_noCrop.tif');
+drainage_density_nocrop = GRIDobj('resources/NoCrop/drainage_density_filtered_noCrop.tif');
+slope_nocrop = GRIDobj('resources/NoCrop/slope_filtered_noCrop.tif');
+wetness_index_nocrop = GRIDobj('resources/NoCrop/wetness_index_filtered_noCrop.tif');
+% non-topographic metrics
+housing_age_nocrop = GRIDobj('resources/NoCrop/housing_age_filtered_noCrop.tif');
+canopy_nocrop = GRIDobj('resources/NoCrop/canopy_filtered_noCrop.tif');
+impervious_nocrop = GRIDobj('resources/NoCrop/impervious_filtered_noCrop.tif');
+soil_nocrop = GRIDobj('resources/NoCrop/soil_filtered_noCrop.tif');
 
 %%
 % fix impervious map
@@ -72,8 +84,11 @@ damage.DrainageArea = geotiffinterp('resources/drainage_area_mdf.tif', damage.La
 [damage.Slope, x, y] = geotiffinterp('resources/slope_gauss.tif', damage.Lat, damage.Long);
 damage.WetnessIndex = geotiffinterp('resources/wetness_index.tif', damage.Lat, damage.Long);
 
+%% interp
+dd = interp(drainage_density_nocrop, damage.x, damage.y);
+
 %% Dummy interp just to fetch the projected coordinates
-[~, damage.x, damage.y] = geotiffinterp('resources/slope_gauss.tif', damage.Lat, damage.Long);
+[~, damage.x, damage.y] = geotiffinterp('resources/DEM30_gauss_filled.tif', damage.Lat, damage.Long);
 
 %% PLOT: sample sites over DEM
 imagesc(DEM)
@@ -85,7 +100,7 @@ hold off
 %% PLOT: sample sites over DEM + site selection
 sites = load('coordinates.mat');
 figure
-imagesc(drainage_density_f)
+imagesc(drainage_density_nocrop)
 cz = colorbar;
 cz.Label.String = 'Elevation [masl]';
 colors = {'g', 'r', 'm'};
