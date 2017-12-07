@@ -78,10 +78,27 @@ damage.WetnessIndex = geotiffinterp('resources/wetness_index.tif', damage.Lat, d
 %% PLOT: sample sites over DEM
 imagesc(DEM)
 hold on
-%plot(x, y, 'r*')
+gscatter(damage.x, damage.y, damage.SiteType, 'mgrb', '+', 8, 'on')
+legend('Location', 'northwestoutside')
+hold off
+
+%% PLOT: sample sites over DEM + site selection
+sites = load('coordinates.mat');
+figure
+imagesc(drainage_density_f)
+cz = colorbar;
+cz.Label.String = 'Elevation [masl]';
+colors = {'g', 'r', 'm'};
+hold on
 gscatter(damage.x, damage.y, damage.SiteType, 'mgrb', '+', 8, 'off')
-legend('DD High', 'DD Low', 'Slope High', 'Slope Low', ...
-        'Location', 'northwestoutside')
+for i = 1:3
+    plot(sites.coordinates{i}(:, 1), sites.coordinates{i}(:, 2), 'p', ...
+        'MarkerSize', 15, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', colors{i})
+end
+legend('DD_L', 'DD_H', 'DA_L', 'DA_H', 'S_H', 'S_L', ...
+    'Site DA', 'Site Slope', 'Site DD', 'Location', 'northwestoutside')
+title('Site locations over the DEM')
+shg
 hold off
 
 %% Frequency table: Site type
@@ -135,7 +152,9 @@ grpstats(damage, 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ...
     {'S', 'LocalSlopeDeg', 'DamageMagnitude'})
 
 %% Group plot: Computed slope vs local slope per site type
-gscatter(damage.S, damage.LocalSlopeDeg, damage.SiteType)
+gscatter(damage.S, damage.LocalSlopeDeg, damage.SiteType, ...
+    [], [], [], 'on', 'Regional slope', ...
+    'Local slope')
 
 %% Group stats: Local slope and damage magnitude per lows and highs
 grpstats(damage, 'HighLow', {'min', 'max', 'mean', @mode}, 'DataVars', ...
@@ -143,13 +162,14 @@ grpstats(damage, 'HighLow', {'min', 'max', 'mean', @mode}, 'DataVars', ...
 
 %% Regional slope vs damage direction
 rs_dir = damage.RegionalSlopeDirection_Az_;
-rs_deg = damage.RegionalSlopeMagnitude_degreesFromHorizontal_;
+rs_deg = damage.LocalSlopeDeg;
 dmg_dir = damage.DamageMetricsOrientation_Az_;
 tilt = damage.DamageMetricsTilt_degreeFromVertical_;
-
 % select the points where the regional slope and the damage direction are more
 % than 20 degrees apart
 pick = find(abs(rs_dir - dmg_dir) > 20);
+% also save the remaining sites
+pick2 = abs(rs_dir - dmg_dir) <= 20;
 % same but select only points where some tilt was measured
 tilted = find(abs(rs_dir - dmg_dir) > 20 & tilt > 0);
 t = table(rs_dir(tilted), dmg_dir(tilted), rs_deg(tilted), tilt(tilted), ...
@@ -161,7 +181,16 @@ gscatter(damage.ageHousing, damage.AbsoluteAge_yearBc_, damage.SiteType)
 %%
 gscatter(damage.categoricAge1_young_2_mid_3_old, damage.AbsoluteAge_yearBc_, damage.SiteType)
 %%
-gscatter(damage.categoricAge1_young_2_mid_3_old, damage.ageHousing, damage.SiteType)
+subplot(1, 2, 1)
+gscatter(damage.categoricAge1_young_2_mid_3_old, damage.ageHousing, ..., 
+    damage.SiteType, [], [], [], 'on', 'Categorical age (1: Young ? 3: Old)', ...
+    'Absolute age (mode per block)')
+title('All types of structure')
+subplot(1, 2, 2)
+gscatter(damage.categoricAge1_young_2_mid_3_old(walls), damage.ageHousing(walls), ..., 
+    damage.SiteType(walls), [], [], [], 'on', 'Categorical age (1: Young ? 3: Old)', ...
+    'Absolute age (mode per block)')
+title('Only considering walls')
 %% histogram of each age measure
 subplot(1, 3, 1)
 histogram(damage.categoricAge1_young_2_mid_3_old)
@@ -170,12 +199,102 @@ histogram(damage.AbsoluteAge_yearBc_)
 subplot(1, 3, 3)
 histogram(damage.ageHousing)
 
+%% only walls
+subplot(1, 2, 1)
+histogram(damage.categoricAge1_young_2_mid_3_old(walls), 3)
+title('Categorical age (1: Young ? 3: Old)')
+subplot(1, 2, 2)
+histogram(damage.ageHousing(walls))
+title('Absolute age (mode per block)')
+
 %% plot matrix
 f = figure('Visible', 'on', 'NumberTitle', 'off', ...
     'units','normalized','outerposition',[0 0 1 1]);
-topo_metrics = {'DA', 'DD', 'DD_nearestNeighbor', 'S', 'W_I_'};
+topo_metrics = {'DA', 'DD_nearestNeighbor', 'S', 'W_I_'};
 damage_metrics = {'DamagedStructure', 'DamageMagnitude'};
 gplotmatrix(table2array(damage(:, topo_metrics)), ...
     table2array(damage(:, damage_metrics)), damage.SiteType, ...
     [], 'o', 10, [], '', topo_metrics, damage_metrics)
 saveas(f, 'plotmatrix_topo_vs_damage', 'png');
+
+%% same but only for sidewalks and walls
+f = figure('Visible', 'on', 'NumberTitle', 'off', ...
+    'units','normalized','outerposition',[0 0 1 1]);
+topo_metrics = {'DA', 'DD', 'DD_nearestNeighbor', 'S', 'W_I_'};
+damage_metrics = {'DamagedStructure', 'DamageMagnitude'};
+gplotmatrix(table2array(damage(sidewalls, topo_metrics)), ...
+    table2array(damage(sidewalls, damage_metrics)), damage.SiteType(sidewalls), ...
+    [], 'o', 10, [], '', topo_metrics, damage_metrics)
+saveas(f, 'plotmatrix_topo_vs_damage_sidewalks+walls', 'png');
+
+%% plot matrix tilt and length vs topo metrics -- all sites
+f = figure('Visible', 'on', 'NumberTitle', 'off', ...
+    'units','normalized','outerposition',[0 0 1 1]);
+topo_metrics = {'DA', 'DD_nearestNeighbor', 'S', 'W_I_'};
+damage_metrics = {'DamageMetricsTilt_degreeFromVertical_', 'DamageMetricsLength_m_'};
+gplotmatrix(log(table2array(damage(:, topo_metrics))), ...
+    log(table2array(damage(:, damage_metrics))), damage.SiteType, ...
+    [], 'o', 10, [], '', topo_metrics, damage_metrics)
+saveas(f, 'plotmatrix_LOG_topo_vs_tilt_length_all_sites', 'png');
+
+%% plot matrix tilt and length vs topo metrics -- only slope site
+f = figure('Visible', 'on', 'NumberTitle', 'off', ...
+    'units','normalized','outerposition',[0 0 1 1]);
+topo_metrics = {'S', 'LocalSlopeDeg'};
+damage_metrics = {'DamageMetricsTilt_degreeFromVertical_', 'DamageMetricsLength_m_'};
+slopes = cellfun(@(x) ~isempty(x), strfind(damage.SiteType, 'S_'));
+% only those where directions agree up to 20 deg
+slopes2 = slopes & pick2;
+gplotmatrix(table2array(damage(slopes, topo_metrics)), ...
+    table2array(damage(slopes, damage_metrics)), damage.HighLow(slopes), ...
+    [], 'o', 10, [], '', topo_metrics, damage_metrics)
+saveas(f, 'plotmatrix_topo_vs_tilt_length_slope_sites', 'png');
+
+%% Agg site type: damage measurement vs magnitude
+grpstats(damage, 'Person_s_Collecting', {'mean'}, 'DataVars', ...
+    {'DamageMetricsArea_m_2_', 'DamageMetricsDisplacement_m_', ...
+    'DamageMetricsLength_m_', 'DamageMetricsTilt_degreeFromVertical_', ...
+    'DamageMetricsWidth_m_', 'DamageMagnitude'})
+
+%%
+metrics = {'DamageMetricsArea_m_2_', 'DamageMetricsDisplacement_m_', ...
+    'DamageMetricsLength_m_', 'DamageMetricsTilt_degreeFromVertical_', ...
+    'DamageMetricsWidth_m_'};
+gplotmatrix(table2array(damage(:, {'DamageMagnitude'})), ...
+    table2array(damage(:, metrics)), damage.Person_s_Collecting(:), ...
+    [], 'o', 10, [], '', 'DamageMagnitude', metrics)
+
+%%
+metrics = {'DamageMetricsLength_m_', 'DamageMetricsTilt_degreeFromVertical_'};
+gplotmatrix(table2array(damage(:, {'DamageMagnitude'})), ...
+    log(table2array(damage(:, metrics))), damage.Person_s_Collecting(:), ...
+    [], 'o', 10, [], '', 'DamageMagnitude', metrics)
+
+%% histograms per group
+gplotmatrix(table2array(damage(:, {'DamageMagnitude'})), ...
+    [], damage.Person_s_Collecting(:), ...
+    [], 'o', 10, 'on', 'grpbars', 'DamageMagnitude')
+
+%%
+figure
+grps = unique(damage.Person_s_Collecting);
+for i = 1:4
+    subplot(2, 2, i)
+    histogram(damage.DamageMagnitude(strcmp(damage.Person_s_Collecting, grps{i})), 5)
+    title(grps{i})
+end
+
+%% histograms of tilt and length
+figure
+grps = unique(damage.Person_s_Collecting);
+for i = 1:4
+    subplot(3, 4, i)
+    histogram(damage.DamageMetricsTilt_degreeFromVertical_(strcmp(damage.Person_s_Collecting, grps{i})), 5)
+    title([grps{i} ': Tilt'])
+    subplot(3, 4, i + 4)
+    histogram(damage.DamageMetricsLength_m_(strcmp(damage.Person_s_Collecting, grps{i})), 5)
+    title([grps{i} ': Length'])
+    subplot(3, 4, i + 8)
+    histogram(damage.DamageMagnitude(strcmp(damage.Person_s_Collecting, grps{i})), 5)
+    title([grps{i} ': Damage magnitude'])
+end
