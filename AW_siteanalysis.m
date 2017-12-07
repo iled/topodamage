@@ -327,7 +327,7 @@ xlim([0.5 8.5]), legend(L), title('Measured damage vs CDU: Sidewalks'), xlabel('
     ylabel('Damage Length (m)'), xlim([2.5 7.5]), ylim([-1 15]), axis square
 hold off
 
-%% CDU: for house-walls only, plot tilt vs CDU, all groups
+%% CDU: for house-walls only, plot tilt vs CDU, all groups***cdu_avg (min) (linear)
 
 L = {'DA','DD','S'};
 scatter(datilt.CDU, datilt.DamageMetricsTilt_degreeFromVertical_, 'b'),
@@ -337,6 +337,60 @@ hold on
 scatter(stilt.CDU, stilt.DamageMetricsTilt_degreeFromVertical_, 'c'),
 xlim([0.5 8.5]), legend(L), title('Measured damage vs CDU: Walls'), xlabel('CDU'), ...
     ylabel('Tilt(degrees from vertical'), xlim([2.5 7.5]), axis square
+hold off
+
+%% CDU mode - changed by julio, need to change back
+L = {'DA','DD','S'};
+scatter(DA_interp_CDUmode(tilted), datilt.DamageMetricsTilt_degreeFromVertical_, 'b'),
+hold on
+scatter(DD_interp_CDUmode(tilted), ddtilt.DamageMetricsTilt_degreeFromVertical_, 'r'),
+scatter(S_interp_CDUmode(tilted), stilt.DamageMetricsTilt_degreeFromVertical_, 'c'),
+%xlim([0.5 8.5]), legend(L), title('Measured damage vs CDU: Walls'), xlabel('CDU'), ...
+%    ylabel('Tilt(degrees from vertical'), xlim([2.5 7.5]), axis square
+hold off
+shgf
+
+%% CDU min nearest - tilt
+L = {'DA','DD','S'};
+scatter(datilt.CDUminnearest, datilt.DamageMetricsTilt_degreeFromVertical_, 'b'),
+hold on
+scatter(ddtilt.CDUminnearest, ddtilt.DamageMetricsTilt_degreeFromVertical_, 'r'),
+hold on
+scatter(stilt.CDUminnearest, stilt.DamageMetricsTilt_degreeFromVertical_, 'c'),
+xlim([0.5 8.5]), legend(L), title('Walls: CDU min filter'), xlabel('CDU'), ...
+    ylabel('Tilt (degrees from vertical)'), xlim([0.5 8.5]), axis square
+hold off);
+
+%% CDU min nearest - sidewalks
+L = {'DA','DD','S'};
+scatter(da_walk.CDUminnearest, da_walk.DamageMetricsLength_m_, 'b'),
+hold on
+scatter(dd_walk.CDUminnearest, dd_walk.DamageMetricsLength_m_, 'r'),
+hold on
+scatter(s_walk.CDUminnearest, s_walk.DamageMetricsLength_m_, 'c'),
+xlim([0.5 8.5]), legend(L), title('Sidewalks: CDU min filter'), xlabel('CDU'), ...
+    ylabel('Damage Length (m)'), xlim([0.5 8.5]), ylim([-1 15]), axis square
+hold off
+%% CDU mode nearest - plot tilt
+L = {'DA','DD','S'};
+scatter(datilt.CDUmodenearest, datilt.DamageMetricsTilt_degreeFromVertical_, 'b'),
+hold on
+scatter(ddtilt.CDUmodenearest, ddtilt.DamageMetricsTilt_degreeFromVertical_, 'r'),
+hold on
+scatter(stilt.CDUmodenearest, stilt.DamageMetricsTilt_degreeFromVertical_, 'c'),
+xlim([0.5 8.5]), legend(L), title('Walls: CDU mode filter'), xlabel('CDU'), ...
+    ylabel('Tilt(degrees from vertical'), xlim([0.5 8.5]), axis square
+hold off
+
+%% CDU mode nearest - plot sidewalks
+L = {'DA','DD','S'};
+scatter(da_walk.CDUmodenearest, da_walk.DamageMetricsLength_m_, 'b'),
+hold on
+scatter(dd_walk.CDUmodenearest, dd_walk.DamageMetricsLength_m_, 'r'),
+hold on
+scatter(s_walk.CDUmodenearest, s_walk.DamageMetricsLength_m_, 'c'),
+xlim([0.5 8.5]), legend(L), title('Sidewalks: CDU mode filter'), xlabel('CDU'), ...
+    ylabel('Damage Length (m)'), xlim([0.5 8.5]), ylim([-1 15]), axis square
 hold off
 
 %% CDU: plot magnitude of damage vs CDU

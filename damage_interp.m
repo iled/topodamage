@@ -26,7 +26,7 @@ DD_interp_WI = geotiffinterp('resources/wetness_index_filtered.tif',DD_damage(:,
 DD_interp_imp = geotiffinterp('resources/impervious_filtered.tif',DD_damage(:,1),DD_damage(:,2));
 DD_interp_DD_nearest = geotiffinterp('resources/drainage_density_filtered.tif',DD_damage(:,1),DD_damage(:,2),'nearest');
 DD_interp_housing = geotiffinterp('resources/housing_age_filtered.tif',DD_damage(:,1),DD_damage(:,2),'nearest');
-%% filter CDU
+%% filter CDU: mean
 cdu = GRIDobj('resources/cdu3final.tif');
 cdu.Z(cdu.Z == 0) = NaN;
 n_px2 = 3;
@@ -40,6 +40,10 @@ good = GRIDobj('tmp/drainage_area_mdf.tif');
 cdu_avg.refmat = good.refmat;
 cdu_avg.georef = good.georef;
 GRIDobj2geotiff(cdu_avg, 'resources/cdu_avg.tif');
+
+%% filter CDU: mode
+
+
 %%
 %CDU.Z=changem(CDU.Z,NaN,0);
 CDU = GRIDobj('resources/cdu_avg.tif');
@@ -47,9 +51,31 @@ DD_interp_CDU = geotiffinterp('resources/cdu_avg.tif',DD_damage(:,1),DD_damage(:
 DA_interp_CDU = geotiffinterp('resources/cdu_avg.tif',DA_damage(:,1),DA_damage(:,2));
 S1_interp_CDU = geotiffinterp('resources/cdu_avg.tif',S1_damage(:,1),S1_damage(:,2));
 S2_interp_CDU = geotiffinterp('resources/cdu_avg.tif',S2_damage(:,1),S2_damage(:,2));
+%%
+good = GRIDobj('tmp/drainage_area_mdf.tif');
+cdu_mode.refmat = good.refmat;
+cdu_mode.georef = good.georef;
 
+GRIDobj2geotiff(cdu_mode, 'resources/cdu_mode.tif');
 
+%%
+% using mode and linear interpolation:
+DD_interp_CDUmode = geotiffinterp('resources/cdu_mode.tif',DD_damage(:,1),DD_damage(:,2));
+DA_interp_CDUmode = geotiffinterp('resources/cdu_mode.tif',DA_damage(:,1),DA_damage(:,2));
+S1_interp_CDUmode = geotiffinterp('resources/cdu_mode.tif',S1_damage(:,1),S1_damage(:,2));
+S2_interp_CDUmode = geotiffinterp('resources/cdu_mode.tif',S2_damage(:,1),S2_damage(:,2));
 
+%% using mode and nearest neighbor: 
+DD_interp_CDUmodenearest = geotiffinterp('resources/cdu_mode.tif',DD_damage(:,1),DD_damage(:,2), 'nearest');
+DA_interp_CDUmodenearest = geotiffinterp('resources/cdu_mode.tif',DA_damage(:,1),DA_damage(:,2), 'nearest');
+S1_interp_CDUmodenearest = geotiffinterp('resources/cdu_mode.tif',S1_damage(:,1),S1_damage(:,2), 'nearest');
+S2_interp_CDUmodenearest = geotiffinterp('resources/cdu_mode.tif',S2_damage(:,1),S2_damage(:,2), 'nearest');
+
+%% CDU min filter, nearest (using cdu_avg
+DD_interp_CDUminnearest = geotiffinterp('resources/cdu_avg.tif',DD_damage(:,1),DD_damage(:,2), 'nearest');
+DA_interp_CDUminnearest = geotiffinterp('resources/cdu_avg.tif',DA_damage(:,1),DA_damage(:,2), 'nearest');
+S1_interp_CDUminnearest = geotiffinterp('resources/cdu_avg.tif',S1_damage(:,1),S1_damage(:,2), 'nearest');
+S2_interp_CDUminnearest = geotiffinterp('resources/cdu_avg.tif',S2_damage(:,1),S2_damage(:,2), 'nearest');
 
 %% for Drainage Area group's damage measurement locations, get values of
 %metrics from DEM:

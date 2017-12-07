@@ -124,6 +124,7 @@ cdu_avg.Z(cdu_avg.Z == 9999) = NaN;
 cdu_avg.Z(cdu_avg.Z == 0) = NaN;
 
 %% RUN: specific filter for CDU: mode filter with edge n_px
+
 n_px = 5;
 cdu.Z(cdu.Z == 0) = NaN;
 cdu_mode = cdu;
