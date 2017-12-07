@@ -359,7 +359,7 @@ hold on
 scatter(stilt.CDUminnearest, stilt.DamageMetricsTilt_degreeFromVertical_, 'c'),
 xlim([0.5 8.5]), legend(L), title('Walls: CDU min filter'), xlabel('CDU'), ...
     ylabel('Tilt (degrees from vertical)'), xlim([0.5 8.5]), axis square
-hold off);
+hold off
 
 %% CDU min nearest - sidewalks
 L = {'DA','DD','S'};
