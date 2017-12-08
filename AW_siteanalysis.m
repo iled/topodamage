@@ -393,6 +393,73 @@ xlim([0.5 8.5]), legend(L), title('Sidewalks: CDU mode filter'), xlabel('CDU'), 
     ylabel('Damage Length (m)'), xlim([0.5 8.5]), ylim([-1 15]), axis square
 hold off
 
+%% CDU: mag damage all vs cdu min filter
+
+L = {'DA','DD','S'};
+scatter(daRows.CDUminnearest, daRows.MagnitudeOfDamage, 80, 'b'),
+hold on
+scatter(ddRows.CDUminnearest, ddRows.MagnitudeOfDamage, 80, '.', 'r'),
+hold on
+scatter(sRows.CDUminnearest, sRows.MagnitudeOfDamage, 170, 'MarkerEdgeColor', [0 0.8 0.2]),
+xlim([0.5 8.5]), legend(L), title('Magnitude: CDU min filter'), xlabel('CDU'), ...
+    ylabel('Mag Dam'), xlim([0.5 8.5]), ylim([0 6]), axis square
+hold off
+
+%% CDU: mag damage all vs cdu mode filter
+
+L = {'DA','DD','S'};
+scatter(daRows.CDUmodenearest, daRows.MagnitudeOfDamage, 80, 'b'),
+hold on
+scatter(ddRows.CDUmodenearest, ddRows.MagnitudeOfDamage, 80, '.', 'r'),
+hold on
+scatter(sRows.CDUmodenearest, sRows.MagnitudeOfDamage, 170, 'MarkerEdgeColor', [0 0.8 0.2]),
+xlim([0.5 8.5]), legend(L), title('Magnitude: CDU mode filter'), xlabel('CDU'), ...
+    ylabel('Mag Dam'), xlim([0.5 8.5]), ylim([0 6]), axis square
+hold off
+
+%% CDU: magnitude damage vs CDU mode nearest:sidewalks
+
+L = {'DA','DD','S'};
+scatter(da_walk.CDUmodenearest, da_walk.MagnitudeOfDamage, 'b'),
+hold on
+scatter(dd_walk.CDUmodenearest, dd_walk.MagnitudeOfDamage, 'r'),
+hold on
+scatter(s_walk.CDUmodenearest, s_walk.MagnitudeOfDamage, 'c'),
+xlim([0.5 8.5]), legend(L), title('Sidewalks: CDU mode filter'), xlabel('CDU'), ...
+    ylabel('Magnitude of Damage'), xlim([0.5 8.5]), ylim([-1 15]), axis square
+hold off
+%% CDU: mag dam vs CDU min nearest: sidewalks
+L = {'DA','DD','S'};
+scatter(da_walk.CDUminnearest, da_walk.MagnitudeOfDamage, 'b'),
+hold on
+scatter(dd_walk.CDUminnearest, dd_walk.MagnitudeOfDamage, 'r'),
+hold on
+scatter(s_walk.CDUminnearest, s_walk.MagnitudeOfDamage, 'c'),
+xlim([0.5 8.5]), legend(L), title('Sidewalks: CDU min filter'), xlabel('CDU'), ...
+    ylabel('Magnitude of Damage'), xlim([0.5 8.5]), ylim([-1 15]), axis square
+hold off
+%% CDU: mag dam vs CDU mode nearest: walls-tilt
+
+L = {'DA','DD','S'};
+scatter(datilt.CDUmodenearest, datilt.MagnitudeOfDamage, 'b'),
+hold on
+scatter(ddtilt.CDUmodenearest, ddtilt.MagnitudeOfDamage, 'r'),
+hold on
+scatter(stilt.CDUmodenearest, stilt.MagnitudeOfDamage, 'c'),
+xlim([0.5 8.5]), legend(L), title('Walls: CDU mode filter'), xlabel('CDU'), ...
+    ylabel('Magnitude of Damage'), xlim([0.5 8.5]), ylim([-1 15]), axis square
+hold off
+%% CDU: mag dam vs CDU min nearest: walls-tilt
+L = {'DA','DD','S'};
+scatter(datilt.CDUminnearest, datilt.MagnitudeOfDamage, 'b'),
+hold on
+scatter(ddtilt.CDUminnearest, ddtilt.MagnitudeOfDamage, 'r'),
+hold on
+scatter(stilt.CDUminnearest, stilt.MagnitudeOfDamage, 'c'),
+xlim([0.5 8.5]), legend(L), title('Walls: CDU min filter'), xlabel('CDU'), ...
+    ylabel('Magnitude of Damage'), xlim([0.5 8.5]), ylim([-1 15]), axis square
+hold off
+
 %% CDU: plot magnitude of damage vs CDU
 
 subplot(1,3,1), gscatter(daRows.MagnitudeOfDamage, daRows.CDU, daRows.SiteType), axis square
