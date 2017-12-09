@@ -313,3 +313,240 @@ for i = 1:4
     histogram(damage.DamageMagnitude(strcmp(damage.Person_s_Collecting, grps{i})), 5)
     title([grps{i} ': Damage magnitude'])
 end
+
+%% filter rows of topo damage table by site type
+
+dalRows = damage(strcmp(damage.SiteType, {'DA_L'}), :);
+dahRows = damage(strcmp(damage.SiteType, {'DA_H'}), :);
+daRows = damage(strcmp(damage.SiteType, {'DA_H'}) | strcmp(damage.SiteType, {'DA_L'}), :);
+ddlRows = damage(strcmp(damage.SiteType, {'DD_L'}), :);
+ddhRows = damage(strcmp(damage.SiteType, {'DD_H'}), :);
+ddRows = damage(strcmp(damage.SiteType, {'DD_H'}) | strcmp(damage.SiteType, {'DD_L'}), :);
+slRows = damage(strcmp(damage.SiteType, {'S_L'}), :);
+shRows = damage(strcmp(damage.SiteType, {'S_H'}), :);
+sRows = damage(strcmp(damage.SiteType, {'S_H'}) | strcmp(damage.SiteType, {'S_L'}), :);
+%remove wetness index "inf" rows
+sRows_noinf = damage(damage.WetnessIndex < Inf & strcmp(damage.SiteType, {'S_L'}) | strcmp(damage.SiteType, {'S_H'}), :);
+
+% filter out NaNs for age of housing data
+dah_nan = damage(~isnan(damage.AgeHousing) & strcmp(damage.SiteType, {'DA_H'}), :);
+ddl_nan = damage(~isnan(damage.AgeHousing) & strcmp(damage.SiteType, {'DD_L'}), :);
+sl_nan = damage(~isnan(damage.AgeHousing) & strcmp(damage.SiteType, {'S_L'}), :);
+sh_nan = damage(~isnan(damage.AgeHousing) & strcmp(damage.SiteType, {'S_H'}), :);
+s_nan = vertcat(sl_nan,sh_nan);
+ddh_nan = damage(~isnan(damage.DrainageDensity) & strcmp(damage.SiteType, {'DD_H'}), :);
+%%
+
+% compute mean values for each magnitude of damage category for DA-H and
+% S-H data
+dahmag1 = dahRows(dahRows.MagnitudeOfDamage == 1, :); dahmag1mean = mean(dahmag1.DrainageArea);
+dahmag2 = daRows(dahRows.MagnitudeOfDamage == 2, :); dahmag2mean = mean(dahmag2.DrainageArea);
+dahmag3 = daRows(dahRows.MagnitudeOfDamage == 3, :); dahmag3mean = mean(dahmag3.DrainageArea);
+dahmag4 = daRows(dahRows.MagnitudeOfDamage == 4, :); dahmag4mean = mean(dahmag4.DrainageArea);
+dahmag5 = daRows(dahRows.MagnitudeOfDamage == 5, :); dahmag5mean = mean(dahmag5.DrainageArea);
+shmag1 = shRows(shRows.MagnitudeOfDamage == 1, :); shmag1mean = mean(shmag1.Slope);
+shmag2 = shRows(shRows.MagnitudeOfDamage == 2, :); shmag2mean = mean(shmag2.Slope);
+shmag3 = shRows(shRows.MagnitudeOfDamage == 3, :); shmag3mean = mean(shmag3.Slope);
+shmag4 = shRows(shRows.MagnitudeOfDamage == 4, :); shmag4mean = mean(shmag4.Slope);
+shmag5 = shRows(shRows.MagnitudeOfDamage == 5, :); shmag5mean = mean(shmag5.Slope);
+
+% scatterplot magnitude of damage vs DA and S, and plot mean magnitudes for DA-H and S-H measurements 
+subplot(1,2,1), gscatter(daRows.DrainageArea, daRows.MagnitudeOfDamage, daRows.SiteType, [0 0.8 0.9;0 0.1 0.7], 'oo'), ylim([0.5 5.5]), yticks([1 2 3 4 5]), ...
+    xlabel('Drainage Area'), ylabel('Magnitude of Damage'), axis square
+hold on, scatter(dahmag1mean,1,100,'p','r'), scatter(dahmag2mean,2,100,'p','r'), scatter(dahmag3mean,3,100,'p','r'), scatter(dahmag4mean,4,100,'p','r'), scatter(dahmag5mean,5,100,'p','r'), hold off
+subplot(1,2,2), gscatter(sRows.Slope, sRows.MagnitudeOfDamage, sRows.SiteType, [0 0.8 0.9;0 0.1 0.7], 'oo'), xlabel('Slope'), yticks([1 2 3 4 5]), ...
+    ylim([0.5 5.5]), axis square
+hold on, scatter(shmag1mean,1,100,'p','r'), scatter(shmag2mean,2,100,'p', 'r'), scatter(shmag3mean,3,100,'p','r'), scatter(shmag4mean,4,100,'p','r'), scatter(shmag5mean,5,100,'p','r'), hold off
+
+%% get rows containing tilt and damage length measurements for each site, for H, L, and both H + L
+
+daltilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'DA_L'}), :);
+dahtilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'DA_H'}), :);
+datilt = vertcat(daltilt,dahtilt);
+ddltilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'DD_L'}), :);
+ddhtilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'DD_H'}), :);
+ddtilt = vertcat(ddltilt,ddhtilt);
+sltilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'S_L'}), :);
+shtilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'S_H'}), :);
+stilt = vertcat(sltilt,shtilt);
+
+da_length = vertcat(damage(~isnan(damage.DamageMetricsLength_m_) & strcmp(damage.SiteType, {'DA_L'}), :), ...
+    damage(~isnan(damage.DamageMetricsLength_m_) & strcmp(damage.SiteType, {'DA_H'}), :));
+dd_length = vertcat(damage(~isnan(damage.DamageMetricsLength_m_) & strcmp(damage.SiteType, {'DD_L'}), :), ...
+    damage(~isnan(damage.DamageMetricsLength_m_) & strcmp(damage.SiteType, {'DD_H'}), :));
+s_length = vertcat(damage(~isnan(damage.DamageMetricsLength_m_) & strcmp(damage.SiteType, {'S_L'}), :), ...
+    damage(~isnan(damage.DamageMetricsLength_m_) & strcmp(damage.SiteType, {'S_H'}), :));
+
+%% plot damage length and tilt for DA, DD, S, comparing H vs L sites for each
+
+subplot(2,3,1), scatter(da_length.Low_1_High_2, da_length.DamageMetricsLength_m_), ylim([0 5]), xlim([0.75 2.25]), ...
+    ylabel('Damage Length (m)'), xticklabels({'L', '', 'H'}), xlabel('DA'), axis square
+hold on, scatter(1,dal_length_mean, 100, 'p', 'r'), scatter(2,dah_length_mean, 100, 'p', 'r'), hold off
+subplot(2,3,2), scatter(dd_length.Low_1_High_2, dd_length.DamageMetricsLength_m_), xlim([0.75 2.25]), ylim([0 22]), xlabel('DD'), xticklabels({'L', '', 'H'}), axis square
+hold on, scatter(1,ddl_length_mean, 100, 'p', 'r'), scatter(2,ddh_length_mean, 100, 'p', 'r'), hold off
+subplot(2,3,3), scatter(s_length.Low_1_High_2, s_length.DamageMetricsLength_m_), xlim([0.75 2.25]), xlabel('S'), xticklabels({'L', '', 'H'}), axis square
+hold on, scatter(1,sl_length_mean, 100, 'p', 'r'), scatter(2,sh_length_mean, 100, 'p', 'r'), hold off
+subplot(2,3,4), scatter(datilt.Low_1_High_2, datilt.DamageMetricsTilt_degreeFromVertical_), xlim([0.75 2.25]), ylim([0 55]), xlabel('DA'), ylabel('Tilt (degrees from vertical)'), xticklabels({'L', '', 'H'}), axis square
+hold on, scatter(1,daltilt_mean, 100, 'p', 'r'), scatter(2,dahtilt_mean, 100, 'p', 'r'), hold off
+subplot(2,3,5), scatter(ddtilt.Low_1_High_2, ddtilt.DamageMetricsTilt_degreeFromVertical_), xlim([0.75 2.25]), xlabel('DD'), ylim([0 45]), xticklabels({'L', '', 'H'}), axis square
+hold on, scatter(1,ddltilt_mean, 100, 'p', 'r'), scatter(2,ddhtilt_mean, 100, 'p', 'r'), hold off
+subplot(2,3,6), scatter(stilt.Low_1_High_2, stilt.DamageMetricsTilt_degreeFromVertical_), xlim([0.75 2.25]), xlabel('S'), xticklabels({'L', '', 'H'}), ylim([0 13]), axis square
+hold on, scatter(1,sltilt_mean, 100, 'p', 'r'), scatter(2,shtilt_mean, 100, 'p', 'r'), hold off
+
+%% isolate rows containing damage to sidewalks (type 1) and house-walls (type 4)
+
+da_walk = vertcat(damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DA_L'}), :), ...
+    damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DA_H'}), :));
+dd_walk = vertcat(damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DD_L'}), :), ...
+    damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DD_H'}), :));
+s_walk = vertcat(damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'S_L'}), :), ...
+    damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'S_H'}), :));
+dal_walk = damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DA_L'}), :);
+dah_walk = damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DA_H'}), :);
+sl_walk = damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'S_L'}), :);
+sh_walk = damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'S_H'}), :);
+ddl_walk = damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DD_L'}), :);
+ddh_walk = damage(damage.DamagedStructure == 1 & strcmp(damage.SiteType, {'DD_H'}), :);
+
+da_wall = vertcat(damage(damage.DamagedStructure == 4 & strcmp(damage.SiteType, {'DA_L'}), :), ...
+    damage(damage.DamagedStructure == 4 & strcmp(damage.SiteType, {'DA_H'}), :));
+dd_wall = vertcat(damage(damage.DamagedStructure == 4 & strcmp(damage.SiteType, {'DD_L'}), :), ...
+    damage(damage.DamagedStructure == 4 & strcmp(damage.SiteType, {'DD_H'}), :));
+s_wall = vertcat(damage(damage.DamagedStructure == 4 & strcmp(damage.SiteType, {'S_L'}), :), ...
+    damage(damage.DamagedStructure == 4 & strcmp(damage.SiteType, {'S_H'}), :));
+
+%% for sidewalk data and wall-tilt data respectively, plot damage magnitude vs damage length for DD, DA, S, with combined H + L sites
+
+L = {'DA','DD','S'};
+subplot(1,2,1),
+scatter(da_walk.MagnitudeOfDamage, da_walk.DamageMetricsLength_m_, 60, 'b'),
+hold on
+scatter(dd_walk.MagnitudeOfDamage, dd_walk.DamageMetricsLength_m_, 60, 'm'),
+hold on
+scatter(s_walk.MagnitudeOfDamage, s_walk.DamageMetricsLength_m_, 60, [0 0.8 0.7]),
+hold off
+ylim([-1 14]), xlim([0.5 5.5]), legend(L), title('Damage Type: Sidewalks'), xlabel('Magnitude Of Damage'), ...
+    ylabel('Damage Length (m)'), xticks([1 2 3 4 5]), axis square,
+subplot(1,2,2),
+L = {'DA','DD','S'};
+scatter(da_wall.MagnitudeOfDamage, da_wall.DamageMetricsTilt_degreeFromVertical_, 60, 'b'),
+hold on
+scatter(dd_wall.MagnitudeOfDamage, dd_wall.DamageMetricsTilt_degreeFromVertical_, 60, 'm'),
+hold on
+scatter(s_wall.MagnitudeOfDamage, s_wall.DamageMetricsTilt_degreeFromVertical_, 60, [0 0.8 0.7]), ...
+    xlim([0.5 5.5]), legend(L), title('Damage Type: Walls'), xlabel('Magnitude Of Damage'), ...
+    ylabel('Tilt (degrees from vertical'), xticks([1 2 3 4 5]), axis square
+hold off
+
+%% for above plot, reverse axes
+
+L = {'DA','DD','S'};
+subplot(1,2,1),
+scatter(da_walk.DamageMetricsLength_m_, da_walk.MagnitudeOfDamage, 60, 'b'),
+hold on
+scatter(dd_walk.DamageMetricsLength_m_, dd_walk.MagnitudeOfDamage, 60, 'm'),
+hold on
+scatter(s_walk.DamageMetricsLength_m_, s_walk.MagnitudeOfDamage, 60, [0 0.8 0.7]),
+hold off
+xlim([-1 14]), ylim([0.5 5.5]), legend(L), title('Damage Type: Sidewalks'), xlabel('Damage Length (m)'), ...
+    ylabel('Magnitude of Damage'), yticks([1 2 3 4 5]), axis square,
+subplot(1,2,2),
+L = {'DA','DD','S'};
+scatter(da_wall.DamageMetricsTilt_degreeFromVertical_, da_wall.MagnitudeOfDamage, 60, 'b'),
+hold on
+scatter(dd_wall.DamageMetricsTilt_degreeFromVertical_, dd_wall.MagnitudeOfDamage, 60, 'm'),
+hold on
+scatter(s_wall.DamageMetricsTilt_degreeFromVertical_, s_wall.MagnitudeOfDamage, 60, [0 0.8 0.7]), ...
+    ylim([0.5 5.5]), legend(L), title('Damage Type: Walls'), ylabel('Magnitude Of Damage'), ...
+    xlabel('Tilt (degrees from vertical)'), yticks([1 2 3 4 5]), xlim([-5 45]), axis square
+hold off
+
+%% plot histograms for each group for magnitude of damage, measured length, and measured tilt
+
+figure
+grps = unique(damage.Person_s_Collecting);
+for i = 1:4
+    subplot(3, 4, i)
+    histogram(damage.DamageMetricsTilt_degreeFromVertical_(strcmp(damage.Person_s_Collecting, grps{i})), 5)
+    title([grps{i} ': Tilt'])
+    subplot(3, 4, i + 4)
+    histogram(damage.DamageMetricsLength_m_(strcmp(damage.Person_s_Collecting, grps{i})), 5)
+    title([grps{i} ': Length'])
+    subplot(3, 4, i + 8)
+    histogram(damage.MagnitudeOfDamage(strcmp(damage.Person_s_Collecting, grps{i})), 5)
+    title([grps{i} ': Damage magnitude'])
+end
+
+%% plot CDU map unfiltered, and with min and mode filters
+
+subplot(1,3,1), imagesc(cdu), colorbar, title('cdu unfiltered'), axis square
+subplot(1,3,2), imagesc(cdu_avg), colorbar, title('cdu min filter'), axis square
+subplot(1,3,3), imagesc(cdu_mode), colorbar, title('cdu mode filter'), axis square
+
+%% compute means for the 4 most common CDU categories for wall tilt and sidewalk crack length
+% walls
+wallCDU4 = damage((damage.DamagedStructure == 4) & (damage.CDUmodenearest == 4), :);
+wallCDU5 = damage((damage.DamagedStructure == 4) & (damage.CDUmodenearest == 5), :);
+wallCDU6 = damage((damage.DamagedStructure == 4) & (damage.CDUmodenearest == 6), :);
+wallCDU7 = damage((damage.DamagedStructure == 4) & (damage.CDUmodenearest == 7), :);
+wallCDU4mean = nanmean(wallCDU4.DamageMetricsTilt_degreeFromVertical_);
+wallCDU5mean = nanmean(wallCDU5.DamageMetricsTilt_degreeFromVertical_);
+wallCDU6mean = nanmean(wallCDU6.DamageMetricsTilt_degreeFromVertical_);
+wallCDU7mean = nanmean(wallCDU7.DamageMetricsTilt_degreeFromVertical_);
+%sidewalks
+walkCDU4 = damage((damage.DamagedStructure == 1) & (damage.CDUmodenearest == 4), :);
+walkCDU5 = damage((damage.DamagedStructure == 1) & (damage.CDUmodenearest == 5), :);
+walkCDU6 = damage((damage.DamagedStructure == 1) & (damage.CDUmodenearest == 6), :);
+walkCDU7 = damage((damage.DamagedStructure == 1) & (damage.CDUmodenearest == 7), :);
+walkCDU4mean = nanmean(walkCDU4.DamageMetricsLength_m_);
+walkCDU5mean = nanmean(walkCDU5.DamageMetricsLength_m_);
+walkCDU6mean = nanmean(walkCDU6.DamageMetricsLength_m_);
+walkCDU7mean = nanmean(walkCDU7.DamageMetricsLength_m_);
+%% CDU mode nearest - walls
+figure
+L = {'DA','DD','S'};
+scatter(da_wall.CDUmodenearest, da_wall.DamageMetricsTilt_degreeFromVertical_, 'b'),
+hold on
+scatter(dd_wall.CDUmodenearest, dd_wall.DamageMetricsTilt_degreeFromVertical_, 'g'),
+hold on
+scatter(s_wall.CDUmodenearest, s_wall.DamageMetricsTilt_degreeFromVertical_, 'c'),
+hold on, scatter(4,wallCDU4mean,100,'p','r'),scatter(5,wallCDU5mean,100,'p','r'),scatter(6,wallCDU6mean,100,'p','r'),scatter(7,wallCDU7mean,100,'p','r')
+xlim([0.5 8.5]), legend(L), title('Walls: CDU score'), xlabel('CDU'), ...
+    ylabel('Tilt(degrees from vertical'), xlim([0.5 8.5]), axis square
+hold off
+%% CDU mode nearest - sidewalks
+figure
+L = {'DA','DD','S'};
+scatter(da_walk.CDUmodenearest, da_walk.DamageMetricsLength_m_, 'b'),
+hold on 
+scatter(dd_walk.CDUmodenearest, dd_walk.DamageMetricsLength_m_, 'g'),
+hold on
+scatter(s_walk.CDUmodenearest, s_walk.DamageMetricsLength_m_, 'c'),
+hold on, scatter(4,walkCDU4mean,100,'p','r'),scatter(5,walkCDU5mean,100,'p','r'),scatter(6,walkCDU6mean,100,'p','r'),scatter(7,walkCDU7mean,100,'p','r')
+xlim([0.5 8.5]), legend(L), title('Sidewalks: CDU score'), xlabel('CDU'), ...
+    ylabel('Damage Length (m)'), xlim([0.5 8.5]), ylim([-1 15]), axis square
+hold off
+
+%% CDU: mag damage all vs cdu mode filter
+
+L = {'DA','DD','S'};
+scatter(daRows.CDUmodenearest, daRows.MagnitudeOfDamage, 80, 'b'),
+hold on
+scatter(ddRows.CDUmodenearest, ddRows.MagnitudeOfDamage, 80, '.', 'r'),
+hold on
+scatter(sRows.CDUmodenearest, sRows.MagnitudeOfDamage, 170, 'MarkerEdgeColor', [0 0.8 0.2]),
+xlim([0.5 8.5]), legend(L), title('Magnitude: CDU mode filter'), xlabel('CDU'), ...
+    ylabel('Mag Dam'), xlim([0.5 8.5]), ylim([0 6]), axis square
+hold off
+
+%% CDU: plot magnitude of damage vs CDU
+
+subplot(1,3,1), gscatter(daRows.MagnitudeOfDamage, daRows.CDU, daRows.SiteType), ylabel('CDU score'), axis square
+subplot(1,3,2), gscatter(sRows.MagnitudeOfDamage, sRows.CDU, sRows.SiteType), xlabel('Mag Dam'), axis square
+subplot(1,3,3), gscatter(ddRows.MagnitudeOfDamage, ddRows.CDU, ddRows.SiteType), axis square
+
+%% CDU: plot damage length (*all damage, not just sidewalks) vs CDU
+
+subplot(1,3,1), gscatter(daRows.DamageMetricsLength_m_, daRows.CDU, daRows.SiteType), ylabel('CDU score'), axis square
+subplot(1,3,2), gscatter(sRows.DamageMetricsLength_m_, sRows.CDU, sRows.SiteType), xlabel('Length (m), all damaged structure types combined'), axis square
+subplot(1,3,3), gscatter(ddRows.DamageMetricsLength_m_, ddRows.CDU, ddRows.SiteType), axis square
