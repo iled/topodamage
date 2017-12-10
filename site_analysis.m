@@ -23,7 +23,15 @@ canopy = GRIDobj('resources/canopyclipped.tif');
 impervious = GRIDobj('resources/impervious_final.tif');
 soil = GRIDobj('resources/soils_13.tif');
 
-%% load non cropped filtered versions
+% fix impervious map
+impervious.refmat = DEM.refmat;
+impervious.cellsize = DEM.cellsize;
+% fix age of housing
+housing_age.Z(housing_age.Z < 1755) = NaN;
+housing_age.refmat = DEM.refmat;
+housing_age.cellsize = DEM.cellsize;
+
+%% DEBUG: load non cropped filtered versions
 % topographic metrics
 drainage_area_nocrop = GRIDobj('resources/NoCrop/drainage_area_mdf_filtered_noCrop.tif');
 drainage_density_nocrop = GRIDobj('resources/NoCrop/drainage_density_filtered_noCrop.tif');
@@ -35,27 +43,7 @@ canopy_nocrop = GRIDobj('resources/NoCrop/canopy_filtered_noCrop.tif');
 impervious_nocrop = GRIDobj('resources/NoCrop/impervious_filtered_noCrop.tif');
 soil_nocrop = GRIDobj('resources/NoCrop/soil_filtered_noCrop.tif');
 
-%%
-% fix impervious map
-impervious.refmat = DEM.refmat;
-impervious.cellsize = DEM.cellsize;
-% fix age of housing
-housing_age.Z(housing_age.Z < 1755) = NaN;
-housing_age.refmat = DEM.refmat;
-housing_age.cellsize = DEM.cellsize;
-
-% path to filtered files
-% (DEM_avg, 'resources/DEM_filtered.tif')
-% (drainage_area_avg, 'resources/drainage_area_mdf_filtered.tif')
-% (slope_avg, 'resources/slope_filtered.tif')
-% (wetness_index_avg, 'resources/wetness_index_filtered.tif')
-% (drainage_density_avg, 'resources/drainage_density_filtered.tif')
-% (housing_age_avg, 'resources/housing_age_filtered.tif')
-% (impervious_avg, 'resources/impervious_filtered.tif')
-% (soil_avg, 'resources/soil_filtered.tif')
-% (canopy_avg, 'resources/canopy_filtered.tif'
-
-%% load damage data
+%% RUN: load damage data
 damage_fn = 'resources/TopoDataAnalysis_all.csv';
 opts = detectImportOptions(damage_fn);
 % fix numeric columns loaded as char
@@ -70,7 +58,7 @@ damage.Properties.VariableNames{'magnitudeOfDamage______Categorical_1_low_5Hig_'
 damage.Properties.VariableNames{'MaterialType_1_concrete_2_brick_3_asphalt_4_stone_5_wood_'} = 'MaterialType';
 damage.Properties.VariableNames{'RegionalSlopeMagnitude_degreesFromHorizontal_'} = 'LocalSlopeDeg';
 
-%% Add variable to distinguish sites of high and low topo metric
+%% RUN: Add variable to distinguish sites of high and low topo metric
 highs = cellfun(@(x) ~isempty(x), strfind(damage.SiteType, '_H'));
 lows = cellfun(@(x) ~isempty(x), strfind(damage.SiteType, '_L'));
 highlow = {};
@@ -78,16 +66,18 @@ highlow(highs, 1) = repmat({'High'}, [sum(highs) 1]);
 highlow(lows, 1) = repmat({'Low'}, [sum(lows) 1]);
 damage.HighLow = highlow;
 
-%% get topographic metric values from maps
+%% DEBUG: get topographic metric values from maps
+% the values are already in place in the currently loaded CSV file
+% also see damage_interp.m
 damage.DrainageDensity = geotiffinterp('resources/drainage_density_fixed.tif', damage.Lat, damage.Long);
 damage.DrainageArea = geotiffinterp('resources/drainage_area_mdf.tif', damage.Lat, damage.Long);
 [damage.Slope, x, y] = geotiffinterp('resources/slope_gauss.tif', damage.Lat, damage.Long);
 damage.WetnessIndex = geotiffinterp('resources/wetness_index.tif', damage.Lat, damage.Long);
 
-%% interp
+%% DEBUG: interp
 dd = interp(drainage_density_nocrop, damage.x, damage.y);
 
-%% Dummy interp just to fetch the projected coordinates
+%% RUN: Dummy interp just to fetch the projected coordinates
 [~, damage.x, damage.y] = geotiffinterp('resources/DEM30_gauss_filled.tif', damage.Lat, damage.Long);
 
 %% PLOT: sample sites over DEM
@@ -135,8 +125,8 @@ tabulate(damage.MaterialType)
 grpstats(damage, 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ... 
     {'DamagedStructure', 'DamageMagnitude'})
 
-%% Group plot: Damaged structure and magnitude per site type
-% not very clear
+%% PLOT: Group plot: Damaged structure and magnitude per site type
+% output not very clear
 gscatter(damage.DamageMagnitude, damage.DamagedStructure, damage.SiteType)
 
 %% Group stats: Magnitude per site type -- only sidewalks
@@ -166,7 +156,7 @@ grpstats(damage, 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ...
 grpstats(damage, 'SiteType', {'min', 'max', 'mean', @mode}, 'DataVars', ...
     {'S', 'LocalSlopeDeg', 'DamageMagnitude'})
 
-%% Group plot: Computed slope vs local slope per site type
+%% PLOT: Group plot: Computed slope vs local slope per site type
 gscatter(damage.S, damage.LocalSlopeDeg, damage.SiteType, ...
     [], [], [], 'on', 'Regional slope', ...
     'Local slope')
@@ -175,7 +165,7 @@ gscatter(damage.S, damage.LocalSlopeDeg, damage.SiteType, ...
 grpstats(damage, 'HighLow', {'min', 'max', 'mean', @mode}, 'DataVars', ...
     {'LocalSlopeDeg', 'DamageMagnitude'})
 
-%% Regional slope vs damage direction
+%% RUN: Regional slope vs damage direction
 rs_dir = damage.RegionalSlopeDirection_Az_;
 rs_deg = damage.LocalSlopeDeg;
 dmg_dir = damage.DamageMetricsOrientation_Az_;
@@ -191,7 +181,7 @@ t = table(rs_dir(tilted), dmg_dir(tilted), rs_deg(tilted), tilt(tilted), ...
     'RowNames', damage.SiteID(tilted), ...
     'VariableNames', {'RS_dir', 'Tilt_dir', 'RS_deg', 'Tilt_deg'})
 
-%% compare different age measures
+%% PLOT compare different age measures
 gscatter(damage.ageHousing, damage.AbsoluteAge_yearBc_, damage.SiteType)
 %%
 gscatter(damage.categoricAge1_young_2_mid_3_old, damage.AbsoluteAge_yearBc_, damage.SiteType)
@@ -206,7 +196,7 @@ gscatter(damage.categoricAge1_young_2_mid_3_old(walls), damage.ageHousing(walls)
     damage.SiteType(walls), [], [], [], 'on', 'Categorical age (1: Young ? 3: Old)', ...
     'Absolute age (mode per block)')
 title('Only considering walls')
-%% histogram of each age measure
+%% PLOT: histogram of each age measure
 subplot(1, 3, 1)
 histogram(damage.categoricAge1_young_2_mid_3_old)
 subplot(1, 3, 2)
@@ -214,7 +204,7 @@ histogram(damage.AbsoluteAge_yearBc_)
 subplot(1, 3, 3)
 histogram(damage.ageHousing)
 
-%% only walls
+%% PLOT: only walls
 subplot(1, 2, 1)
 histogram(damage.categoricAge1_young_2_mid_3_old(walls), 3)
 title('Categorical age (1: Young ? 3: Old)')
@@ -222,7 +212,7 @@ subplot(1, 2, 2)
 histogram(damage.ageHousing(walls))
 title('Absolute age (mode per block)')
 
-%% plot matrix
+%% PLOT: plot matrix
 f = figure('Visible', 'on', 'NumberTitle', 'off', ...
     'units','normalized','outerposition',[0 0 1 1]);
 topo_metrics = {'DA', 'DD_nearestNeighbor', 'S', 'W_I_'};
@@ -232,7 +222,7 @@ gplotmatrix(table2array(damage(:, topo_metrics)), ...
     [], 'o', 10, [], '', topo_metrics, damage_metrics)
 saveas(f, 'plotmatrix_topo_vs_damage', 'png');
 
-%% same but only for sidewalks and walls
+%% PLOT: same but only for sidewalks and walls
 f = figure('Visible', 'on', 'NumberTitle', 'off', ...
     'units','normalized','outerposition',[0 0 1 1]);
 topo_metrics = {'DA', 'DD', 'DD_nearestNeighbor', 'S', 'W_I_'};
@@ -242,7 +232,7 @@ gplotmatrix(table2array(damage(sidewalls, topo_metrics)), ...
     [], 'o', 10, [], '', topo_metrics, damage_metrics)
 saveas(f, 'plotmatrix_topo_vs_damage_sidewalks+walls', 'png');
 
-%% plot matrix tilt and length vs topo metrics -- all sites
+%% PLOT: plot matrix tilt and length vs topo metrics -- all sites
 f = figure('Visible', 'on', 'NumberTitle', 'off', ...
     'units','normalized','outerposition',[0 0 1 1]);
 topo_metrics = {'DA', 'DD_nearestNeighbor', 'S', 'W_I_'};
@@ -252,7 +242,7 @@ gplotmatrix(log(table2array(damage(:, topo_metrics))), ...
     [], 'o', 10, [], '', topo_metrics, damage_metrics)
 saveas(f, 'plotmatrix_LOG_topo_vs_tilt_length_all_sites', 'png');
 
-%% plot matrix tilt and length vs topo metrics -- only slope site
+%% PLOT: plot matrix tilt and length vs topo metrics -- only slope site
 f = figure('Visible', 'on', 'NumberTitle', 'off', ...
     'units','normalized','outerposition',[0 0 1 1]);
 topo_metrics = {'S', 'LocalSlopeDeg'};
@@ -271,7 +261,7 @@ grpstats(damage, 'Person_s_Collecting', {'mean'}, 'DataVars', ...
     'DamageMetricsLength_m_', 'DamageMetricsTilt_degreeFromVertical_', ...
     'DamageMetricsWidth_m_', 'DamageMagnitude'})
 
-%%
+%% PLOT
 metrics = {'DamageMetricsArea_m_2_', 'DamageMetricsDisplacement_m_', ...
     'DamageMetricsLength_m_', 'DamageMetricsTilt_degreeFromVertical_', ...
     'DamageMetricsWidth_m_'};
@@ -279,13 +269,13 @@ gplotmatrix(table2array(damage(:, {'DamageMagnitude'})), ...
     table2array(damage(:, metrics)), damage.Person_s_Collecting(:), ...
     [], 'o', 10, [], '', 'DamageMagnitude', metrics)
 
-%%
+%% PLOT
 metrics = {'DamageMetricsLength_m_', 'DamageMetricsTilt_degreeFromVertical_'};
 gplotmatrix(table2array(damage(:, {'DamageMagnitude'})), ...
     log(table2array(damage(:, metrics))), damage.Person_s_Collecting(:), ...
     [], 'o', 10, [], '', 'DamageMagnitude', metrics)
 
-%% histograms per group
+%% PLOT: histograms per group
 gplotmatrix(table2array(damage(:, {'DamageMagnitude'})), ...
     [], damage.Person_s_Collecting(:), ...
     [], 'o', 10, 'on', 'grpbars', 'DamageMagnitude')
@@ -299,7 +289,7 @@ for i = 1:4
     title(grps{i})
 end
 
-%% histograms of tilt and length
+%% PLOT: histograms of tilt and length
 figure
 grps = unique(damage.Person_s_Collecting);
 for i = 1:4
@@ -350,7 +340,7 @@ shmag3 = shRows(shRows.MagnitudeOfDamage == 3, :); shmag3mean = mean(shmag3.Slop
 shmag4 = shRows(shRows.MagnitudeOfDamage == 4, :); shmag4mean = mean(shmag4.Slope);
 shmag5 = shRows(shRows.MagnitudeOfDamage == 5, :); shmag5mean = mean(shmag5.Slope);
 
-% scatterplot magnitude of damage vs DA and S, and plot mean magnitudes for DA-H and S-H measurements 
+%% PLOT: scatterplot magnitude of damage vs DA and S, and plot mean magnitudes for DA-H and S-H measurements 
 subplot(1,2,1), gscatter(daRows.DrainageArea, daRows.MagnitudeOfDamage, daRows.SiteType, [0 0.8 0.9;0 0.1 0.7], 'oo'), ylim([0.5 5.5]), yticks([1 2 3 4 5]), ...
     xlabel('Drainage Area'), ylabel('Magnitude of Damage'), axis square
 hold on, scatter(dahmag1mean,1,100,'p','r'), scatter(dahmag2mean,2,100,'p','r'), scatter(dahmag3mean,3,100,'p','r'), scatter(dahmag4mean,4,100,'p','r'), scatter(dahmag5mean,5,100,'p','r'), hold off
@@ -358,7 +348,7 @@ subplot(1,2,2), gscatter(sRows.Slope, sRows.MagnitudeOfDamage, sRows.SiteType, [
     ylim([0.5 5.5]), axis square
 hold on, scatter(shmag1mean,1,100,'p','r'), scatter(shmag2mean,2,100,'p', 'r'), scatter(shmag3mean,3,100,'p','r'), scatter(shmag4mean,4,100,'p','r'), scatter(shmag5mean,5,100,'p','r'), hold off
 
-%% get rows containing tilt and damage length measurements for each site, for H, L, and both H + L
+%% PLOT: get rows containing tilt and damage length measurements for each site, for H, L, and both H + L
 
 daltilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'DA_L'}), :);
 dahtilt = damage(~isnan(damage.DamageMetricsTilt_degreeFromVertical_) & strcmp(damage.SiteType, {'DA_H'}), :);
